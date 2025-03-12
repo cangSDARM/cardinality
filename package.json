@@ -1,0 +1,31 @@
+{
+  "name": "cardinality",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/vue": "^5.0.7",
+    "@tailwindcss/vite": "^4.0.11",
+    "astro": "^5.4.2",
+    "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.8",
+    "chartjs-plugin-annotation": "^3.1.0",
+    "less": "^4.2.2",
+    "tailwindcss": "^4.0.11",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@allenlee/remark-drop-paragraph": "^0.0.4",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=9.0.0"
+  }
+}

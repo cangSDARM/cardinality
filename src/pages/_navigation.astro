@@ -1,0 +1,64 @@
+---
+interface Props {
+  navs: {
+    href: string;
+    label: string;
+    title?: string;
+  }[];
+  hideBrand?: boolean;
+  base?: string;
+  theme?: "second";
+}
+
+const { navs, hideBrand = false, base = "", theme } = Astro.props;
+const { pathname } = Astro.url;
+
+if (!pathname.startsWith(import.meta.env.BASE_URL)) {
+  throw "unexpected error, wrong pathname";
+}
+
+const brand = pathname
+  .replace(import.meta.env.BASE_URL, "")
+  .substring(1, 2)
+  .toUpperCase();
+
+// get absolute or relative url
+const getUri = (href: string): [string, boolean] => {
+  if (href.startsWith("/")) {
+    return [import.meta.env.BASE_URL + base + href, false];
+  } else {
+    return [new URL(href).href, true];
+  }
+};
+---
+
+<nav class:list={[theme === "second" ? "py-0 bg-indigo-500" : "pt-2 bg-blue-500", "relative flex items-center px-4"]}>
+  {
+    !hideBrand && (
+      <a class="text-sky-50 mr-4 text-xl" href="#">
+        {brand}
+      </a>
+    )
+  }
+  <div class="flex items-center grow basis-auto" id="navbarSupportedContent">
+    <ul class="flex pl-0 mb-0 flex-raw mr-auto">
+      {
+        navs.map(nav => {
+          const [uri, isAbsolute] = getUri(nav.href);
+
+          return (
+            <li class="nav-item">
+              <a
+                class:list={[pathname === uri ? "text-gray-50" : "text-gray-50/50", "block pl-0 mr-4 my-2"]}
+                href={uri}
+                target={isAbsolute ? "_blank" : "_self"}
+              >
+                {nav.label}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</nav>

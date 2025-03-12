@@ -1,0 +1,285 @@
+---
+import Navigation from "./_navigation.astro";
+import Footer from "./_footer.astro";
+
+const { pathname } = Astro.url;
+
+const subnavs: Record<string, any[]> = {
+  "/hyperloglog": [
+    {
+      href: "/adding",
+      label: "Add",
+    },
+    {
+      href: "/counting",
+      label: "Count",
+    },
+    {
+      href: "/merging",
+      label: "Merge",
+    },
+    {
+      href: "/more",
+      label: "More",
+    },
+    {
+      href: "https://djhworld.github.io/hyperloglog",
+      label: "Origin",
+    },
+  ],
+};
+const subbase = pathname.replace(import.meta.env.BASE_URL, "").match(/(?:\/[^\/]*)/g)![0];
+
+const isMarkdown = Astro.props.markdownify || (!!Astro.props.frontmatter && !!Astro.props.rawContent);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="generator" content={Astro.generator} />
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>cardinality</title>
+  </head>
+  <body>
+    <header id="site-head"></header>
+    <Navigation
+      navs={[
+        {
+          href: "/",
+          label: "Home",
+        },
+        {
+          href: "/hyperloglog",
+          label: "Hyperloglog",
+        },
+      ]}
+      hideBrand
+    />
+    {subnavs[subbase] ? <Navigation theme="second" base={subbase} navs={subnavs[subbase]} /> : undefined}
+    <br />
+    <article class:list={["container mx-auto px-1", isMarkdown && "prosed"]}>
+      <slot />
+    </article>
+    <Footer />
+  </body>
+</html>
+
+<style lang="less" is:global>
+  @import "tailwindcss";
+
+  @layer utilities {
+    .container {
+      @media (width >= 80rem) {
+        max-width: 72rem;
+      }
+    }
+  }
+
+  @layer components {
+    .btn {
+      display: inline-block;
+      font-weight: var(--font-normal);
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      border: 1px solid transparent;
+      padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 3);
+      font-size: 1rem;
+      line-height: 1.5;
+      border-radius: 0.25rem;
+      transition:
+        color 0.15s ease-in-out,
+        background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
+
+      &:not(:disabled):not(.disabled) {
+        cursor: pointer;
+      }
+
+      &-primary {
+        color: var(--color-white);
+        background-color: var(--color-blue-500);
+        border-color: var(--color-blue-500);
+        &:hover {
+          background-color: var(--color-blue-700);
+        }
+      }
+      &-secondary {
+        color: var(--color-white);
+        background-color: var(--color-gray-500);
+        border-color: var(--color-gray-500);
+        &:hover {
+          background-color: var(--color-gray-700);
+        }
+      }
+      &-link {
+        color: var(--color-blue-500);
+        background-color: transparent;
+        &:hover {
+          color: var(--color-blue-700);
+          text-decoration: underline;
+        }
+      }
+    }
+    .table {
+      width: 100%;
+      max-width: 100%;
+      margin-bottom: 1rem;
+      background-color: transparent;
+      border-collapse: collapse;
+
+      tr {
+        display: table-row !important;
+      }
+      td,
+      th {
+        padding: 0.75rem;
+        vertical-align: top;
+        border-top: 1px solid var(--color-white);
+      }
+      .table {
+        background-color: var(--color-white);
+      }
+      .table-info,
+      .table-info > td,
+      .table-info > th {
+        background-color: var(--color-teal-300);
+      }
+    }
+  }
+</style>
+
+<!--  for markdown style  -->
+<style lang="less" is:global>
+  .prosed {
+    font-weight: 400;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
+      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    color: #212529;
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      margin-bottom: 0.5rem;
+      font-family: inherit;
+      font-weight: 500;
+      line-height: 1.2;
+      color: inherit;
+    }
+    dl,
+    ol,
+    ul {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+    code,
+    kbd,
+    pre,
+    samp {
+      font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+    h1 {
+      font-size: 2.5rem;
+    }
+    h2 {
+      font-size: 2rem;
+    }
+    h3 {
+      font-size: 1.75rem;
+    }
+    h4 {
+      font-size: 1.5rem;
+    }
+    h5 {
+      font-size: 1.25rem;
+    }
+    p {
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+    code {
+      font-size: 87.5%;
+      color: #e83e8c;
+      word-break: break-word;
+    }
+    ul {
+      display: block;
+      list-style-type: disc;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      padding-inline-start: 40px;
+      unicode-bidi: isolate;
+    }
+    ul ul {
+      list-style-type: circle;
+      margin-block-start: 0px;
+      margin-block-end: 0px;
+    }
+    ol {
+      display: block;
+      list-style-type: decimal;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      padding-inline-start: 40px;
+      unicode-bidi: isolate;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 0.5rem;
+      line-height: 1;
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+      background-color: transparent;
+      -webkit-text-decoration-skip: objects;
+    }
+    hr {
+      box-sizing: content-box;
+      height: 0;
+      overflow: visible;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      border: 0;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    .figure {
+      display: block;
+      margin: 10px 0 10px;
+
+      img {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+    .footnotes {
+      &::before {
+        content: "";
+        display: block;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      .sr-only {
+        display: none;
+      }
+    }
+  }
+</style>
