@@ -28,7 +28,7 @@ const subnavs: Record<string, any[]> = {
     },
   ],
 };
-const subbase = pathname.replace(import.meta.env.BASE_URL, "").match(/(?:\/[^\/]*)/g)![0];
+const subbase = pathname.replace(import.meta.env.BASE_URL, "").match(/(?:\/[^\/]*)/g)?.[0];
 
 const isMarkdown = Astro.props.markdownify || (!!Astro.props.frontmatter && !!Astro.props.rawContent);
 ---
@@ -58,7 +58,7 @@ const isMarkdown = Astro.props.markdownify || (!!Astro.props.frontmatter && !!As
       ]}
       hideBrand
     />
-    {subnavs[subbase] ? <Navigation theme="second" base={subbase} navs={subnavs[subbase]} /> : undefined}
+    {subbase && subnavs[subbase] ? <Navigation theme="second" base={subbase} navs={subnavs[subbase]} /> : undefined}
     <br />
     <article class:list={["container mx-auto px-1", isMarkdown && "prosed"]}>
       <slot />
