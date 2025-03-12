@@ -9,7 +9,7 @@ import { KATEX_RENDERS } from "./_katex.js";
 
 Chart.register(...registerables, annotation);
 
-function random_unique(num = 0) {
+function random_unique(num = 1) {
   const data: Record<string, number> = {};
   for (let i = 0; i < num; i++) {
     while (true) {
@@ -176,7 +176,7 @@ onUpdated(() => {
           v-bind:title="'Insert dataset with cardinality ' + c"
           v-bind:value="c"
           v-bind:class="[selectedCard === c ? 'btn btn-primary' : 'btn btn-link']"
-          v-on:click="random_unique(c)"
+          v-on:click="randomUnique(c)"
         >
           {{ c }}
         </button>
@@ -207,7 +207,7 @@ onUpdated(() => {
         step="1"
         id="slider"
         v-model="precision"
-        v-on:change="random_unique(precision)"
+        v-on:change="randomUnique()"
       />
       <output id="precision">{{ precision }}</output>
     </div>
