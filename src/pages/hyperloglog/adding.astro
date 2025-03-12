@@ -1,0 +1,56 @@
+---
+import AddVue from "./_adding.vue";
+import Layout from "../_layout.astro";
+import inserting from "./assets/inserting.png";
+import { Image } from "astro:assets";
+---
+
+<Layout markdownify>
+  <h1>Adding</h1>
+  <p>The core of a HyperLogLog instance consists of:</p>
+  <ul>
+    <li>
+      a series of <i>registers</i> (<span v-html="KATEX_RENDERS['m']"></span>), sometimes implemented as an array
+    </li>
+    <li>
+      a <i>precision</i> (<span v-html="KATEX_RENDERS['p']"></span>) argument, usually between 4 and 16, specified on
+      creation
+      <ul>
+        <li>The precision determines how many registers there are available</li>
+        <li>More registers reduce the error in the <a href="./counting">count</a>, at the expense of more memory</li>
+      </ul>
+    </li>
+    <li>
+      a <i>hash function</i> (<span v-html="KATEX_RENDERS['h_v']"></span>) which hashes the data into a 32-bit integer
+    </li>
+  </ul>
+
+  <p>
+    The aim of HyperLogLog is to estimate the cardinality (<span v-html="KATEX_RENDERS['E']"></span>) based on the
+    current state of the registers.
+  </p>
+
+  <p>Adding an item might ultimately end up changing the state of the registers, as you will see below.</p>
+
+  <div class="row">
+    <div class="col">
+      <h3>Diagram</h3>
+      <p>
+        Hopefully this diagram will explain the steps that occur during an add operation. If not, maybe the <a
+          href="#playground-section">playground below</a
+        > might give you some intuition.
+      </p>
+      <figure class="figure" style="margin-top:10px; margin-bottom:10px; display:block !important">
+        <Image alt="" class="figure-img img-fluid" style="margin-left:auto; margin-right:auto; display:block;" src={inserting} />
+      </figure>
+    </div>
+  </div>
+  <br />
+  <br />
+  <br />
+
+  <a name="playground-section" />
+  <h3>Playground</h3>
+  <p>Use the tool below to see what happens when you add an item into HyperLogLog</p>
+  <AddVue client:load />
+</Layout>
