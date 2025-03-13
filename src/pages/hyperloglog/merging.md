@@ -1,60 +1,63 @@
 ---
-# layout: ../_layout.astro
 title: "merging"
 date: "2018-01-24T20:32:47Z"
 ---
 
 # Merging
 
-Imagine you have a bunch of logs with 1 billion lines in them. Your boss comes up, coffee cup in hand, and wants to find out how many unique IP addresses visited the website yesterday.
+假设你有一堆有上亿行的日志。此时你的老板端着咖啡杯走过来，他想知道昨天有多少个独立的 IP 地址访问了公司网站。
 
-_I know this is a contrived example, but lets run with it._
+_让我们假设这就是今天早上发生的，试试解决这个麻烦_
 
-The brute force approach would be to provision a `set` data-structure, and go through the records one by one until you reach the end, then return the length of the `set` to the user.
+可以想到的蛮力方法是提供一个集合 Set，并逐行遍历统计记录直到结束，然后将该集合的长度返回给用户。
 
 ![why](./assets/merge1.png)
 
-As you can imagine, this has problems
+可以想象到，这种方法有很多问题
 
-- It's slow.
-- It's memory consuming
-  - If you were lucky (cursed?) enough to even have 100 million unique visitors, that would consume 3.2GB of memory alone!
+- 慢，非常的慢。
+- 消耗很大的内存
+  - 简单运算可以知道，至少需要 3.2GB 的内存！
 
-## Parallel
+## 并行
 
-So to speed things up, you run your `count(distinct(ip))` operation using a parallel approach.
+为了解决问题一，你需要并行运行你的 `count(distinct(ip))`。
 
-Theoretically this is the same as the serial method, each worker processes a subset of the data and builds up a `set` of IP addresses. However, there's a pinch point in the operation where you eventually need to merge all your `sets` from all the nodes into one so you can determine the unique count.
+从理论上讲，这与串行方法相同。每个 Worker 进程/线程处理数据的一个子集，并维护对应 IP 地址集合。
+但是，在实际操作中有一个关键问题，那就是最终仍然需要将所有 IP 的所有集合合并到一个集合中，以便确定唯一的计数。
 
 ![parallel](./assets/merge2.png)
 
-This is a much better approach than the brute force solution above, but it suffers from
+这是一个比上面的蛮力解决方案好得多的方法，但它也无法避免
 
-- Memory consumption
-- Bandwidth heavy
-  - Shuffling those sets between the workers is expensive, especially if they are on separate machines
+- 过高的内存消耗
+- 过大的带宽消耗
+  - 在不同的 Worker 之间操作或转移这些集合是很吃力的，尤其是考虑多个机器集群处理时
 
-## Approximation
+## 估算
 
-You ask your boss, do you need _an exact count_ or just an approximate.
+需要问问你的老板，他到底需要一个*相当精确*的数字还是只是一个*大致准确*的数字。
 
-With figures like number of unique IP addresses, does it really matter if you're a slight bit out from the real number?
+在这个数量级下，对于像多少个独立 IP 地址这样的数字，如果你统计结果稍微出了点小偏差，真的有关系吗？
 
-This is where HyperLogLog shines because as you've seen, the core is the registers is just an array of bytes. With the top precision (16) making 65,536 registers available for use, the memory used is just 512KiB[^1]
+这正是 HyperLogLog 的亮点所在。
+因为 HyperLogLog 的核心——“寄存器”仅仅只是一个字节数组。
+哪怕最高的精度(16)需要 65,536 个寄存器，其所使用的内存也仅为 512KiB[^1]
 
 ![approx](./assets/merge3.png)
 
-Merging HyperLogLog instances across nodes is simply a case of merging the registers, achieved by comparing each register and taking the max.
+而跨节点合并 HyperLogLog 实例实现也非常简单，只是合并寄存器而已。
+仅需要比较每个寄存器，并保留最大值。
 
-Then the final merged instance can be used to perform the [count](/counting).
+然后使用合并后的实例执行[计数](/counting)即可。
 
 ![count](./assets/merge4.png)
 
-This
+这种实现
 
-- Uses a lot less memory
-- Uses a lot less bandwidth
-- Is much faster.
-- Very easy to parallelize
+- 内存消耗很小
+- 带宽消耗很小
+- 也很块
+- 非常容易并行
 
-[^1]: Note that some implementations of HyperLogLog use a _sparse_ representation of the registers, which saves even more memory. See [HyperLogLog++](https://research.google.com/pubs/pub40671.html)
+[^1]: 注意，HyperLogLog 的一些实现使用了稀疏数组表示的寄存器，这节省了更多的内存。请见[HyperLogLog++](https://research.google.com/pubs/pub40671.html)

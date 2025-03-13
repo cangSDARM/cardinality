@@ -23,7 +23,7 @@ HyperLogLog 是[基数估算](https://en.wikipedia.org/wiki/Count-distinct_probl
 它：
 
 - ✅ 很快
-- ✅ 内存小
+- ✅ 占用内存小
 - ✅ 可并发计算
 - ✅ 满足交换律
 
