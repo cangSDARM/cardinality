@@ -2,46 +2,48 @@
 import AddVue from "./_adding.vue";
 import Layout from "../_layout.astro";
 import inserting from "./assets/inserting.png";
+import { KATEX_RENDERS } from "./_katex";
 import { Image } from "astro:assets";
 ---
 
 <Layout markdownify>
   <h1>Adding</h1>
-  <p>The core of a HyperLogLog instance consists of:</p>
+  <p>一个可运行的 HyperLogLog 实现必须有：</p>
   <ul>
     <li>
-      a series of <i>registers</i> (<span v-html="KATEX_RENDERS['m']"></span>), sometimes implemented as an array
+      一系列的 <i>寄存器</i> (<span set:html={KATEX_RENDERS["m"]} />)，可以实现为一个数组
     </li>
     <li>
-      a <i>precision</i> (<span v-html="KATEX_RENDERS['p']"></span>) argument, usually between 4 and 16, specified on
-      creation
+      一个 <i>精度</i> (<span set:html={KATEX_RENDERS["p"]} />) 参数，通常为 4 - 16，必须在创建时指定
       <ul>
-        <li>The precision determines how many registers there are available</li>
-        <li>More registers reduce the error in the <a href="./counting">count</a>, at the expense of more memory</li>
+        <li>决定了有多少个寄存器可用 (2^n)</li>
+        <li>更多的寄存器可以减少<a href="./counting">计数</a>中的错误，但需要牺牲更多的内存</li>
       </ul>
     </li>
     <li>
-      a <i>hash function</i> (<span v-html="KATEX_RENDERS['h_v']"></span>) which hashes the data into a 32-bit integer
+      一个 <i>哈希函数</i> (<span set:html={KATEX_RENDERS["h_v"]} />)，用于将数据散列为一个 32 位整数
     </li>
   </ul>
 
   <p>
-    The aim of HyperLogLog is to estimate the cardinality (<span v-html="KATEX_RENDERS['E']"></span>) based on the
-    current state of the registers.
+    HyperLogLog 基于当前所有寄存器的状态估计 <i>基数</i> (<span set:html={KATEX_RENDERS["E"]} />)
   </p>
 
-  <p>Adding an item might ultimately end up changing the state of the registers, as you will see below.</p>
+  <p>如下所示，添加一个数据可能就会彻底改变寄存器的状态。</p>
 
-  <div class="row">
-    <div class="col">
-      <h3>Diagram</h3>
+  <div class="flex">
+    <div class="relative w-full">
+      <h3>示意图</h3>
       <p>
-        Hopefully this diagram will explain the steps that occur during an add operation. If not, maybe the <a
-          href="#playground-section">playground below</a
-        > might give you some intuition.
+        希望本图能够解释在“添加”操作期间发生了什么。如果不能，不妨<a href="#playground-section">动手试一试</a>。
       </p>
       <figure class="figure" style="margin-top:10px; margin-bottom:10px; display:block !important">
-        <Image alt="" class="figure-img img-fluid" style="margin-left:auto; margin-right:auto; display:block;" src={inserting} />
+        <Image
+          alt=""
+          class="figure-img img-fluid"
+          style="margin-left:auto; margin-right:auto; display:block;"
+          src={inserting}
+        />
       </figure>
     </div>
   </div>
@@ -49,8 +51,8 @@ import { Image } from "astro:assets";
   <br />
   <br />
 
-  <a name="playground-section" />
-  <h3>Playground</h3>
-  <p>Use the tool below to see what happens when you add an item into HyperLogLog</p>
+  <a name="playground-section"></a>
+  <h3>动手试一试</h3>
+  <p>用下面的小工具查看在 HyperLogLog 中添加一项数据时会发生什么</p>
   <AddVue client:load />
 </Layout>
