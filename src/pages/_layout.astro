@@ -8,23 +8,27 @@ const subnavs: Record<string, any[]> = {
   "/hyperloglog": [
     {
       href: "/adding",
-      label: "Add",
+      label: "添加",
     },
     {
       href: "/counting",
-      label: "Count",
+      label: "计数",
     },
     {
       href: "/merging",
-      label: "Merge",
+      label: "合并",
+    },
+    {
+      href: "/practice",
+      label: "实践",
     },
     {
       href: "/more",
-      label: "More",
+      label: "衍生",
     },
     {
       href: "https://djhworld.github.io/hyperloglog",
-      label: "Origin",
+      label: "🇬🇧原文",
     },
   ],
 };
@@ -49,7 +53,7 @@ const isMarkdown = Astro.props.markdownify || (!!Astro.props.frontmatter && !!As
       navs={[
         {
           href: "/",
-          label: "Home",
+          label: "首页",
         },
         {
           href: "/hyperloglog",

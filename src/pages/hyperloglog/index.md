@@ -3,37 +3,41 @@
 
 # HyperLogLog
 
-This website is designed to explore some of the concepts found in the following papers
+本网站旨在探索以下论文
 
 - [HyperLogLog: the analysis of a near-optimal cardinality estimation algorithm (2007)](http://algo.inria.fr/flajolet/Publications/FlFuGaMe07.pdf)
 - [HyperLogLog in Practice: Algorithmic Engineering of a State of The Art Cardinality Estimation Algorithm (2013)](https://research.google.com/pubs/pub40671.html)
-  - personally I found this paper a little easier to read
 
-The site consists of the following sections
+包含以下部分概念
 
-- A section detailing how items are [added](adding.html) to a HyperLogLog instance
-- A section detailing how [the count is appoximated](counting.html)
-- A section detailing how HyperLogLog [supports merging](merging.md)
-- A section that describes where to [go next](more.md) for implementations and uses
+- 探索 HyperLogLog 如何[添加数据项](hyperloglog/adding.html)
+- 探索 HyperLogLog 如何[基于近似的计数](hyperloglog/counting.html)
+- 探索 HyperLogLog 如何支持[合并](hyperloglog/merging.md)
+- 探索在实际问题中 HyperLogLog 如何[实践](hyperloglog/practice.md)
+- 探索 HyperLogLog 的[衍生内容](hyperloglog/more.md)
 
-# Elevator pitch
+## 总而言之
 
-HyperLogLog is a cardinality estimator designed to solve the [count-distinct problem](https://en.wikipedia.org/wiki/Count-distinct_problem).
+HyperLogLog 是[基数估算](https://en.wikipedia.org/wiki/Count-distinct_problem)的利器，用于解决大数据下的统计问题
 
-It is:
+它：
 
-- ✅ Fast
-- ✅ Memory efficient
-- ✅ Parallellisable
-- ✅ Commutative
+- ✅ 很快
+- ✅ 内存小
+- ✅ 可并发计算
+- ✅ 满足交换律
 
-It might not:
+但是：
 
-- ⚠️ Give an accurate count - the result could be +/- the actual value by a small margin.
+- ⚠️ 无法给出精确统计 - 根据场景结果可能会出现小的 +/- 偏差
 
-Possible uses:
+潜在应用场景：
 
-- Seeing roughly how many unique users visited a website
-- Time series data where distinct operation is required
-- Database query planning
-- Exploratory analysis
+- 估算有多少独立用户/IP访问了同一个网站
+- 度量操作数的时间序列数据
+- 数据库查询设计
+- 探索性分析
+
+## 致谢
+
+- 原文：https://djhworld.github.io/hyperloglog/

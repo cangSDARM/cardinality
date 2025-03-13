@@ -49,7 +49,12 @@ const getUri = (href: string): [string, boolean] => {
           return (
             <li class="nav-item">
               <a
-                class:list={[pathname === uri ? "text-gray-50" : "text-gray-50/50", "block pl-0 mr-4 my-2"]}
+                class:list={[
+                  pathname.replace(/\..*/, "") === uri
+                    ? "text-gray-50 hover:text-gray-300"
+                    : "text-gray-50/50 hover:text-gray-300/50",
+                  "block pl-0 mr-4 my-2",
+                ]}
                 href={uri}
                 target={isAbsolute ? "_blank" : "_self"}
               >
