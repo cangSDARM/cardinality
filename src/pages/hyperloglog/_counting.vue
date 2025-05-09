@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, onMounted, onUpdated } from "vue";
-import { HyperLogLog } from "./_hyperloglog";
+import { HyperLogLog, buckets_to_rows } from "./_hyperloglog";
 import { Chart, registerables } from "chart.js";
 import annotation from "chartjs-plugin-annotation";
 import { murmurhash3_32_gc } from "./_murmurhash3.js";
@@ -30,23 +30,6 @@ function random_unique(num = 1) {
     }
   }
   return result;
-}
-
-//TODO move this
-function buckets_to_rows(buckets: number[], rowsize: number) {
-  var b: number[][] = [[]];
-  var row = 0;
-  var i = 0;
-  for (const reg in buckets) {
-    b[row].push(buckets[i]);
-    i++;
-
-    if (i % rowsize == 0) {
-      row++;
-      b[row] = [];
-    }
-  }
-  return b;
 }
 
 function sleep(ms: number) {
@@ -152,21 +135,18 @@ onUpdated(() => {
       <small style="font-size: 16px; font-style: italic" v-if="isProcessing"> loading 💫 </small>
     </h1>
     <p style="text-align: justify">
-      <i
-        >This algorithm approximates the number of unique items (<i>cardinality</i>) of a multiset. This is achieved by
-        using a hash function that is applied to every element that is to be counted. The algorithm observes the maximum
-        number of leading zeros that occur for all hash values, where intuitively hash values with more leading zeros
-        are less likely and indicate a larger cardinality.</i
+      <i>
+        算法通过对每个要计数的元素进行散列(hash)，检查所有哈希值出现的前导零的最大数量来实现(直观地看，那些不太可能出现的，具有更多前导零的哈希值的，暗示了有更大的基数)。</i
       >
     </p>
   </div>
   <hr />
   <div class="flex flex-row">
     <div class="min-md:basis-1/2 relative w-full px-3">
-      <h4>Inputs</h4>
+      <h4>输入</h4>
       <p>
         <small>
-          <i>Insert 1,000,000 random records with a given cardinality of...</i>
+          <i>插入1,000,000条随机记录，其给定基数为...</i>
         </small>
       </p>
       <div class="button-group">
@@ -184,18 +164,18 @@ onUpdated(() => {
     </div>
 
     <div class="min-md:basis-1/2 relative w-full px-3">
-      <h4>Precision</h4>
+      <h4>精度</h4>
       <p>
         <small>
-          <i>Smaller will give a worse estimate</i>
+          <i>越小，估计越差</i>
         </small>
       </p>
       <div>
         <span style="float: right; color: #aeaeae">
-          <small>less error, more memory &rarr;</small>
+          <small>更少错误，但是更大内存占用 &rarr;</small>
         </span>
         <span style="float: left; color: #aeaeae">
-          <small>&larr;greater error, less memory</small>
+          <small>&larr;更多错误，但是更小内存占用</small>
         </span>
       </div>
 
@@ -216,13 +196,13 @@ onUpdated(() => {
 
   <div id="estimate" class="flex px-2" v-if="result !== null">
     <div class="w-full relative">
-      <h3>Result</h3>
+      <h3>结果</h3>
 
       <table class="table">
         <tbody>
           <tr class="table-info">
             <td>
-              <strong>Estimate (<span v-html="KATEX_RENDERS['E']"></span>)</strong>
+              <strong>估计 (<span v-html="KATEX_RENDERS['E']"></span>)</strong>
             </td>
             <td>
               {{ Math.round(result.estimate) }}
@@ -240,14 +220,14 @@ onUpdated(() => {
           </tr>
           <tr>
             <td width="200px">
-              <strong>Registers (<span v-html="KATEX_RENDERS['m']"></span>)</strong>
+              <strong>寄存器 (<span v-html="KATEX_RENDERS['m']"></span>)</strong>
             </td>
             <td width="200px">{{ result.m }}</td>
-            <td>The number of <a href="#registers-section">registers</a> used.</td>
+            <td>使用的 <a href="#registers-section">寄存器</a> 数量</td>
           </tr>
           <tr class="table">
             <td>
-              <strong>Memory used</strong>
+              <strong>内存占用</strong>
             </td>
             <td>
               {{ result.m * 8 }}
@@ -258,16 +238,16 @@ onUpdated(() => {
       </table>
       <span v-if="result.correction_used"
         >*
-        <i>Estimate has been <a href="#corrections">corrected</a> using {{ result.correction_used.name }}</i>
+        <i>估计已使用 {{ result.correction_used.name }} <a href="#corrections">纠偏</a></i>
       </span>
     </div>
   </div>
   <hr v-if="result !== null" />
   <div id="calculation" class="flex flex-wrap" v-if="result !== null">
     <div class="px-2 w-full relative">
-      <h3>Calculation</h3>
+      <h3>计算</h3>
       <p>
-        The cardinality (<span v-html="KATEX_RENDERS['E']"></span>) is estimated by the formula
+        基数 (<span v-html="KATEX_RENDERS['E']"></span>) 通过以下算式进行估计
         <span v-html="KATEX_RENDERS['cardinality_estimation']"></span>
       </p>
       <table class="table">
@@ -278,7 +258,7 @@ onUpdated(() => {
               <span v-html="KATEX_RENDERS['a_m']"></span>
             </td>
             <td width="200px">{{ result.alpha_m }}</td>
-            <td>A constant used to correct a systematic multiplicative bias</td>
+            <td>用来纠正系统乘法偏差的常数</td>
           </tr>
           <tr>
             <td>
@@ -286,7 +266,7 @@ onUpdated(() => {
               <span v-html="KATEX_RENDERS['m^2']"></span>
             </td>
             <td>{{ Math.pow(result.m, 2.0) }}</td>
-            <td>The number of registers (<span v-html="KATEX_RENDERS['m']"></span>) squared</td>
+            <td>寄存器个数 (<span v-html="KATEX_RENDERS['m']"></span>) 的平方</td>
           </tr>
           <tr>
             <td>
@@ -295,8 +275,7 @@ onUpdated(() => {
             </td>
             <td>{{ result.z }}</td>
             <td>
-              The <a href="https://en.wikipedia.org/wiki/HyperLogLog#Count" target="new">harmonic mean</a> of the
-              registers
+              寄存器 <a href="https://en.wikipedia.org/wiki/HyperLogLog#Count" target="new">harmonic mean</a> 的值
             </td>
           </tr>
         </tbody>
@@ -306,28 +285,25 @@ onUpdated(() => {
   <hr v-if="result != null && result.correction_used" />
   <div id="corrections" class="flex flex-wrap" v-if="result !== null">
     <div class="px-2 w-full relative" v-if="result.correction_used">
-      <h3>Corrections</h3>
+      <h3>纠偏</h3>
       <a name="corrections" />
-      <p>
-        For certain cardinalities, the above calculation yields an incorrect result, so HyperLogLog applies a measure to
-        correct this
-      </p>
+      <p>对于某些基数，上面的计算会产生一个有较大误差的结果。因此 HyperLogLog 应用一个度量(measure)来纠偏。</p>
       <table class="table">
         <tbody>
           <tr>
             <td width="200px">
-              <strong>Original estimate (<span v-html="KATEX_RENDERS['E']"></span>)</strong>
+              <strong>原有估计 (<span v-html="KATEX_RENDERS['E']"></span>)</strong>
             </td>
             <td>{{ result.originalEstimate }}</td>
           </tr>
           <tr>
             <td>
-              <strong>Correction Method</strong>
+              <strong>纠偏算法</strong>
             </td>
             <td>
               {{ result.correction_used.name }}
               <small v-if="result.correction_used.name == 'LinearCount'"
-                >(load factor = {{ result.correction_used.metadata.FillFactor }})</small
+                >(负载因子 = {{ result.correction_used.metadata.FillFactor }})</small
               >
             </td>
           </tr>
@@ -336,19 +312,19 @@ onUpdated(() => {
       <div v-if="result.correction_used.name === 'LinearCount'">
         <h5>Linear Count</h5>
         <p>
-          <a href="http://dblab.kaist.ac.kr/Publication/pdf/ACM90_TODS_v15n2.pdf">Linear Count</a> is a simple counting
-          algorithm that considers the <i>load factor</i> of the registers. A low <i>load factor</i> indicates the
-          probability of <u>collisions</u> is low, and the cardinality can be estimated by counting the number of
-          registers that are empty (<span v-html="KATEX_RENDERS['V']"></span>), and applying the following formula
+          <a href="http://dblab.kaist.ac.kr/Publication/pdf/ACM90_TODS_v15n2.pdf">Linear Count</a>
+          是一种考虑寄存器负载因子(load factor)的简单计数算法。低负载因子表示<u>hash 碰撞</u
+          >的概率会较低，基数则可以通过计算空寄存器的数量 (<span v-html="KATEX_RENDERS['V']"></span>)
+          来估计，然后利用以下公式
           <!--{{console.log(katex.renderToString("-m \\cdot log(\\frac{V}{m})", {'displayMode': true}))}}-->
           <span v-html="KATEX_RENDERS['linear_count']"></span>
         </p>
 
         <p>
-          As you can see from the graph below, this gives a fairly good estimate of the cardinality when the registers
-          are not full, but becomes more prone to error as <span v-html="KATEX_RENDERS['V']"></span> approaches 0.
+          从下图中可以看到，当寄存器未占满时，该纠偏算法给出了一个相当好的基数估计。但是当
+          <span v-html="KATEX_RENDERS['V']"></span> 接近0时，它开始变得很容易出错。
         </p>
-        <p>This is why HyperLogLog only uses LinearCount for smaller cardinalities.</p>
+        <p>这就是为什么 HyperLogLog 只对较小的基数使用 LinearCount。</p>
 
         <div id="#linearCountChart">
           <canvas ref="linearCountChart" id="linear-count-chart"></canvas>
@@ -361,25 +337,25 @@ onUpdated(() => {
   <div class="flex flex-wrap" v-if="registers.length > 0 && result !== null">
     <div class="px-2 w-full relative">
       <h3>
-        Registers
+        寄存器
         <small>{{ result.m }}</small>
       </h3>
       <div id="registers" v-if="result.m > 8192">
         <p>
           <i>
-            There are too many registers to display here, but you can imagine it! Try setting the precision to a lower
-            value if you want to see the registers in action!</i
+            处于性能和展示方便考虑，寄存器多于 8192
+            个时不会显示。如果希望看到寄存器结果的可视化，请尝试将精度设置为较低的值！</i
           >
         </p>
       </div>
       <div id="registers" v-if="result.m <= 8192">
-        <p>Each register represents the maximum number of leading zeroes + 1 seen.</p>
+        <p>每个寄存器表示：最大的前导零个数+1。</p>
         <table class="table">
           <tbody>
             <tr v-for="(row, rowindex) in registers">
               <td
-                v-bind:title="'Register: ' + (rowindex * 64 + index) + '\x0AValue: ' + value"
                 v-for="(value, index) in row"
+                v-bind:title="'Register: ' + (rowindex * 64 + index) + '\x0AValue: ' + value"
                 v-bind:class="[value > 0 ? 'register-on' : 'register-off']"
               >
                 {{ value }}

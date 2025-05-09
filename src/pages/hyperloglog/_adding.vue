@@ -1,24 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { HyperLogLog } from "./_hyperloglog";
+import { HyperLogLog, buckets_to_rows } from "./_hyperloglog";
 import { murmurhash3_32_gc } from "./_murmurhash3.js";
 import { KATEX_RENDERS } from "./_katex";
-
-function buckets_to_rows(buckets: number[], rowsize: number) {
-  var b: number[][] = [[]];
-  var row = 0;
-  var i = 0;
-  for (const reg in buckets) {
-    b[row].push(buckets[i]);
-    i++;
-
-    if (i % rowsize == 0) {
-      row++;
-      b[row] = [];
-    }
-  }
-  return b;
-}
 
 function toBinary(num: number, trunc: number) {
   var b = num.toString(2);
@@ -177,7 +161,10 @@ const random = () => {
       <p>每个寄存器存储值 = max(运算结果<span v-html="KATEX_RENDERS['w']"></span>)。</p>
       <div id="registers" v-if="result.m > 8192">
         <p>
-          <i>处于性能和展示方便考虑，寄存器多于 8192 个时不会显示。如果希望看到寄存器结果的可视化，请尝试将精度设置为较低的值！</i>
+          <i
+            >处于性能和展示方便考虑，寄存器多于 8192
+            个时不会显示。如果希望看到寄存器结果的可视化，请尝试将精度设置为较低的值！</i
+          >
         </p>
       </div>
       <div id="registers" v-if="registers.length <= 8192">

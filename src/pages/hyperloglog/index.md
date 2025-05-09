@@ -18,9 +18,7 @@
 
 ## 总而言之
 
-HyperLogLog 是[基数估算](https://en.wikipedia.org/wiki/Count-distinct_problem)的利器，用于解决大数据下的统计问题
-
-它：
+HyperLogLog 是基数估计的利器：
 
 - ✅ 很快
 - ✅ 占用内存小
@@ -29,7 +27,7 @@ HyperLogLog 是[基数估算](https://en.wikipedia.org/wiki/Count-distinct_probl
 
 但是：
 
-- ⚠️ 无法给出精确统计 - 根据场景结果可能会出现小的 +/- 偏差
+- ⚠️ 无法给出精确统计 - 根据场景结果可能会出现小的 +/- 偏差(标准误差为 0.81%)
 
 潜在应用场景：
 
@@ -41,3 +39,4 @@ HyperLogLog 是[基数估算](https://en.wikipedia.org/wiki/Count-distinct_probl
 ## 致谢
 
 - 原文：https://djhworld.github.io/hyperloglog/
+- HyperLogLog 原理讲解：https://www.cnblogs.com/linguanh/p/10460421.html

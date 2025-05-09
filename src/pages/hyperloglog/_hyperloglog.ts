@@ -100,3 +100,19 @@ export function HyperLogLog(m: number) {
 
   return { add: add, count: count, merge: merge, buckets: M, p: k };
 }
+
+export function buckets_to_rows(buckets: number[], rowsize: number) {
+  var b: number[][] = [[]];
+  var row = 0;
+  var i = 0;
+  for (const reg in buckets) {
+    b[row].push(buckets[i]);
+    i++;
+
+    if (i % rowsize == 0) {
+      row++;
+      b[row] = [];
+    }
+  }
+  return b;
+}
