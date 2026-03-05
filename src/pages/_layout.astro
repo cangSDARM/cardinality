@@ -1,7 +1,7 @@
 ---
 import Navigation from "./_navigation.astro";
 import Footer from "./_footer.astro";
-import 'katex/dist/katex.min.css';
+import "katex/dist/katex.min.css";
 
 const { pathname } = Astro.url;
 
@@ -166,8 +166,9 @@ const isMarkdown = Astro.props.markdownify || (!!Astro.props.frontmatter && !!As
 <style lang="less" is:global>
   .prosed {
     font-weight: 400;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif,
-      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family:
+      -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol";
     color: #212529;
 
     h1,
