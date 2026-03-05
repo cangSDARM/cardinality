@@ -2,6 +2,8 @@
 import { defineConfig } from "astro/config";
 import DropParagraph from "@allenlee/remark-drop-paragraph";
 import { visit, SKIP } from "unist-util-visit";
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 import tailwindcss from "@tailwindcss/vite";
 
@@ -48,9 +50,9 @@ export default defineConfig({
   base: "cardinality",
 
   markdown: {
-    remarkPlugins: [mdLayout],
+    remarkPlugins: [mdLayout, remarkMath],
     // @ts-ignore
-    rehypePlugins: [mdImageFlow, DropParagraph],
+    rehypePlugins: [mdImageFlow, rehypeKatex, DropParagraph],
     remarkRehype: {
       footnoteBackContent: (_, referenceIndex) => {
         return [

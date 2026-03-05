@@ -35,7 +35,7 @@ const getUri = (href: string): [string, boolean] => {
 <nav class:list={[theme === "second" ? "py-0 bg-indigo-500" : "pt-2 bg-blue-500", "relative flex items-center px-4"]}>
   {
     !hideBrand && (
-      <a class="text-sky-50 mr-4 text-xl" href="#">
+      <a class="text-sky-50 mr-4 text-xl" href={getUri('/')[0]}>
         {brand}
       </a>
     )

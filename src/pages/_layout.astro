@@ -1,11 +1,16 @@
 ---
 import Navigation from "./_navigation.astro";
 import Footer from "./_footer.astro";
+import 'katex/dist/katex.min.css';
 
 const { pathname } = Astro.url;
 
 const subnavs: Record<string, any[]> = {
   "/hyperloglog": [
+    {
+      href: "/principle",
+      label: "原理",
+    },
     {
       href: "/adding",
       label: "添加",
@@ -17,10 +22,6 @@ const subnavs: Record<string, any[]> = {
     {
       href: "/merging",
       label: "合并",
-    },
-    {
-      href: "/practice",
-      label: "实践",
     },
     {
       href: "/more",
@@ -262,6 +263,12 @@ const isMarkdown = Astro.props.markdownify || (!!Astro.props.frontmatter && !!As
       margin-bottom: 1rem;
       border: 0;
       border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    blockquote {
+      border-left: 4px solid #ddd;
+      color: #666;
+      margin: 0;
+      padding: 0 15px;
     }
     .figure {
       display: block;

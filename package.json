@@ -21,7 +21,10 @@
   },
   "devDependencies": {
     "@allenlee/remark-drop-paragraph": "^0.0.4",
+    "katex": "^0.16.33",
     "prettier": "^3.5.3",
+    "rehype-katex": "^7.0.1",
+    "remark-math": "^6.0.0",
     "typescript": "^5.8.2"
   },
   "engines": {
