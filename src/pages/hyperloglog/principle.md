@@ -41,4 +41,4 @@ title: "principle"
 
 同时，基于前文的优化思维，HyperLogLog 会分桶进行估计。先计算出每个桶的基数，然后求调和平均数。
 
-且 HyperLogLog 的精度和桶数存在明显相关。其定量关系为：$相对标准误差(RSD)=\frac{1.04}{\sqrt{m}}$
+且 HyperLogLog 的精度和桶数($m$)存在明显相关。其定量关系为：$相对标准误差(RSD)=\frac{1.04}{\sqrt{m}}$

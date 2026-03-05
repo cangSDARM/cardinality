@@ -40,3 +40,4 @@ HyperLogLog 是基数估计的利器：
 
 - 原文：https://djhworld.github.io/hyperloglog/
 - HyperLogLog 原理讲解：https://www.cnblogs.com/linguanh/p/10460421.html
+- HyperLogLog 和 LogLog 比较：http://content.research.neustar.biz/blog/hll.html

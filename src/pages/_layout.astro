@@ -5,6 +5,37 @@ import "katex/dist/katex.min.css";
 
 const { pathname } = Astro.url;
 
+const navs = [
+  {
+    href: "/",
+    label: "首页",
+  },
+  {
+    href: "/bitmap",
+    label: "Bitmap",
+  },
+  {
+    href: "/fm",
+    label: "Flajolet-Martin",
+  },
+  {
+    href: "/hyperloglog",
+    label: "HyperLogLog",
+  },
+  {
+    href: "/bloomfilters",
+    label: "BloomFilters",
+  },
+  {
+    href: "/cms",
+    label: "Counting-min Sketch",
+  },
+  {
+    href: "/cvm",
+    label: "CVM",
+  },
+];
+
 const subnavs: Record<string, any[]> = {
   "/hyperloglog": [
     {
@@ -32,6 +63,36 @@ const subnavs: Record<string, any[]> = {
       label: "🇬🇧原文",
     },
   ],
+  "/bitmap": [
+    {
+      href: "/principle",
+      label: "原理",
+    },
+  ],
+  "/bloomfilters": [
+    {
+      href: "/principle",
+      label: "原理",
+    },
+  ],
+  "/cms": [
+    {
+      href: "/principle",
+      label: "原理",
+    },
+  ],
+  "/fm": [
+    {
+      href: "/principle",
+      label: "原理",
+    },
+  ],
+  "/cvm": [
+    {
+      href: "/principle",
+      label: "原理",
+    },
+  ],
 };
 const subbase = pathname.replace(import.meta.env.BASE_URL, "").match(/(?:\/[^\/]*)/g)?.[0];
 
@@ -50,19 +111,7 @@ const isMarkdown = Astro.props.markdownify || (!!Astro.props.frontmatter && !!As
   </head>
   <body>
     <header id="site-head"></header>
-    <Navigation
-      navs={[
-        {
-          href: "/",
-          label: "首页",
-        },
-        {
-          href: "/hyperloglog",
-          label: "HyperLogLog",
-        },
-      ]}
-      hideBrand
-    />
+    <Navigation navs={navs} hideBrand />
     {subbase && subnavs[subbase] ? <Navigation theme="second" base={subbase} navs={subnavs[subbase]} /> : undefined}
     <br />
     <article class:list={["container mx-auto px-1", isMarkdown && "prosed"]}>
