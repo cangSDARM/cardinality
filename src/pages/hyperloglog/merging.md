@@ -1,6 +1,5 @@
 ---
 title: "merging"
-date: "2018-01-24T20:32:47Z"
 ---
 
 # Merging

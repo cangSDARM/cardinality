@@ -6,6 +6,7 @@ import annotation from "chartjs-plugin-annotation";
 import { murmurhash3_32_gc } from "./_murmurhash3.js";
 import { getLinearCountChart } from "./_chart.js";
 import { KATEX_RENDERS } from "./_katex.js";
+import Am from './assets/am.png';
 
 Chart.register(...registerables, annotation);
 
@@ -274,12 +275,16 @@ onUpdated(() => {
               <span v-html="KATEX_RENDERS['Z']"></span>
             </td>
             <td>{{ result.z }}</td>
-            <td>
-              寄存器 <a href="https://en.wikipedia.org/wiki/HyperLogLog#Count" target="new">harmonic mean</a> 的值
-            </td>
+            <td>寄存器计算结果的<a href="https://en.wikipedia.org/wiki/HyperLogLog#Count" target="new">调和平均数</a></td>
           </tr>
         </tbody>
       </table>
+      <p>
+        <span v-html="KATEX_RENDERS['a_m']"></span>计算规则如下：
+      </p>
+      <div class="w-full flex flex-col items-center">
+        <img :src="Am.src" :height="Am.height / 3" :width="Am.width / 3" />
+      </div>
     </div>
   </div>
   <hr v-if="result != null && result.correction_used" />
@@ -315,7 +320,7 @@ onUpdated(() => {
           <a href="http://dblab.kaist.ac.kr/Publication/pdf/ACM90_TODS_v15n2.pdf">Linear Count</a>
           是一种考虑寄存器负载因子(load factor)的简单计数算法。低负载因子表示<u>hash 碰撞</u
           >的概率会较低，基数则可以通过计算空寄存器的数量 (<span v-html="KATEX_RENDERS['V']"></span>)
-          来估计，然后利用以下公式
+          来估计，然后利用以下公式直接得到估算结果
           <!--{{console.log(katex.renderToString("-m \\cdot log(\\frac{V}{m})", {'displayMode': true}))}}-->
           <span v-html="KATEX_RENDERS['linear_count']"></span>
         </p>
@@ -324,7 +329,7 @@ onUpdated(() => {
           从下图中可以看到，当寄存器未占满时，该纠偏算法给出了一个相当好的基数估计。但是当
           <span v-html="KATEX_RENDERS['V']"></span> 接近0时，它开始变得很容易出错。
         </p>
-        <p>这就是为什么 HyperLogLog 只对较小的基数使用 LinearCount。</p>
+        <p>这就是为什么 HyperLogLog 只对较小的基数(<span v-html="KATEX_RENDERS['smaller']"></span>)使用 LinearCount。</p>
 
         <div id="#linearCountChart">
           <canvas ref="linearCountChart" id="linear-count-chart"></canvas>

@@ -1,7 +1,5 @@
 ---
 title = "more"
-type = "webpage"
-date = "2018-01-24T20:32:47Z"
 ---
 
 # More
@@ -16,6 +14,10 @@ date = "2018-01-24T20:32:47Z"
 
 - Redis 中使用到 HyperLogLog 的 `PF*` [指令](https://redis.io/commands/pfcount)
   - 其 HLL 结构使用了 2^14=16384 个桶，hash 值采用 64bit 表示，除了桶编号之外剩余的 50 bit (64-14=50) 全部用于统计得分。为了确保桶中记录的分数最大范围高于 50，每个桶需要占用 6 bit 空间（2^6>50）。这样，总体的空间占用为 16384\*6bit=12KB
+  - 假设，估算有多少独立用户/IP访问了同一个网站。如果 key 对应页面名称，value 对应用户 id
+    - `pfadd key value` 将 key 对应的一个 value 存入
+    - `pfcount key` 统计 key 的 value 有多少个
+
 - Apache DataSketch 算法族中包含 HyperLogLog 的实现，该算法族被广泛用于许多大数据基础组件中，用于支持基数、分位数等的快速计算。例如：
   - Hive/Spark 通过官方 [UDXF](https://github.com/apache/datasketches-hive) 的方式使用 DataSketch；
   - Apache Druid 通过[官方插件](https://druid.apache.org/docs/latest/development/extensions-core/datasketches-extension.html)的形式引入 DataSketch 扩展；

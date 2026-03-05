@@ -10,11 +10,11 @@
 
 包含以下部分概念
 
-- 探索 HyperLogLog 如何[添加数据项](adding.html)
-- 探索 HyperLogLog 如何[基于近似的计数](counting.html)
-- 探索 HyperLogLog 如何支持[合并](merging.md)
-- 探索在实际问题中 HyperLogLog 如何[实践](practice.md)
-- 探索 HyperLogLog 的[衍生内容](more.md)
+- 探索 HyperLogLog 如何工作的[原理](/cardinality/hyperloglog/principle)
+- 探索 HyperLogLog 如何[添加数据项](/cardinality/hyperloglog/adding)
+- 探索 HyperLogLog 如何[基于近似的计数](/cardinality/hyperloglog/counting)
+- 探索 HyperLogLog 如何支持[合并](/cardinality/hyperloglog/merging)
+- 探索 HyperLogLog 的[衍生和具体实践](/cardinality/hyperloglog/more)
 
 ## 总而言之
 
