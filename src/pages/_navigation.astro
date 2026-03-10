@@ -22,8 +22,6 @@ const brand = pathname
   .substring(1, 2)
   .toUpperCase();
 
-const trimPathname = pathname.replace(/\..*/, "").replace(/\/$/, "");
-
 // get absolute or relative url
 const getUri = (href: string): [string, boolean] => {
   if (href.startsWith("/")) {
@@ -32,12 +30,14 @@ const getUri = (href: string): [string, boolean] => {
     return [new URL(href).href, true];
   }
 };
+
+const rootUri = getUri("/")[0];
 ---
 
 <nav class:list={[theme === "second" ? "py-0 bg-indigo-500" : "pt-2 bg-blue-500", "relative flex items-center px-4"]}>
   {
     !hideBrand && (
-      <a class="text-sky-50 mr-4 text-xl" href={getUri("/")[0]}>
+      <a class="text-sky-100 hover:text-sky-200 mr-4 text-xl" href={rootUri}>
         {brand}
       </a>
     )
@@ -52,7 +52,7 @@ const getUri = (href: string): [string, boolean] => {
             <li class="nav-item">
               <a
                 class:list={[
-                  trimPathname === uri
+                  (pathname !== rootUri ? new RegExp(uri).test(pathname) && uri !== rootUri : uri === rootUri)
                     ? "text-gray-50 hover:text-gray-300"
                     : "text-gray-50/50 hover:text-gray-300/50",
                   "block pl-0 mr-4 my-2",

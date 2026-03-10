@@ -10,7 +10,7 @@ title: "principle"
 
 假设一直抛硬币，直到它出现正面为止(概率 $p = \frac{1}{2}$)，我们记录为一次完整的试验。这个试验就是`伯努利试验`。
 
-其中，在`n`次伯努利试验中，必然会有一个最大的抛掷次数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>k</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mrow><annotation encoding="application/x-tex">k_{max}</annotation></semantics></math></span></span>，例如抛了12次才出现正面，那么称<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>k</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>=</mo><mn>12</mn></mrow><annotation encoding="application/x-tex">k_{max}=12</annotation></semantics></math></span></span>，代表抛了最多的次数。
+其中，在`n`次伯努利试验中，必然会有一个最大的抛掷次数$k_{max}$，例如抛了12次才出现正面，那么称$k_{max}=12$，代表抛了最多的次数。
 
 结合极大似然估算的方法，发现在 $n$ 和 $k_{max}$ 中存在估算关联： $n=2^{k_{max}}$。
 
@@ -29,7 +29,7 @@ title: "principle"
 
 ### 引申/实践
 
-> 问：统计 APP 的一个页面，每天有多少用户(uid)点击进入的次数
+> 问：统计 APP 的一个页面，每天有多少用户(uid)点击进入的次数？
 >
 > 答：通过 hash 函数将 uid 转为随机的二进制串，例如 001001。
 > 根据前面的估计算法，则可以假定多次随机后出现 1 的前导零个数($k_{max}$)概率和用户数($n$)有关联。
