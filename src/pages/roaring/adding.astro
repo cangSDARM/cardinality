@@ -1,0 +1,83 @@
+---
+import Layout from "../_layout.astro";
+import chunks from "./assets/chunks.png";
+import { Image } from "astro:assets";
+import AddVue from "./_adding.vue";
+---
+
+<Layout markdownify>
+  <h1 id="adding">Adding</h1>
+  <p>例如：添加<code>int = 20</code></p>
+  <ol>
+    <li>首先，将 int 转为 bit：<code>00000000 00000000 00000000 00010100</code></li>
+    <li>划分最高位 <code>MSB = 00000000 00000000</code> 和最低位 <code>MLB = 00000000 00010100</code></li>
+    <li>以最高位为 key，用二分查找找到对应的桶 <code>00000000 00000000</code>，以最低位为 value 进行插入操作</li>
+  </ol>
+  <p>RoaringBitmap 的桶划分如下：</p>
+  <figure class="figure">
+    <Image
+      src={chunks}
+      alt="chunks"
+      class="figure-img img-fluid"
+      height={500}
+    />
+  </figure>
+  <p>按照插入时桶的疏密程度，实际存储时，RoaringBitmap 会进一步将桶区分为不同类型的容器(Container)：</p>
+  <ol>
+    <li>
+      如果插入时，当前桶存储的数据不超过 4096 个，直接有序存储最低位为 Array，称为 <code>ArrayContainer</code>
+      <ul>
+        <li>保存为 <code>short[]</code>。直接存储两字节的最低位，而不是用 Bitmap</li>
+        <li>存储一个数据占用 2 b，最多存储 4096 个数据。最多占用 8kb</li>
+        <li>该数组始终有序，保证可以用二分查找</li>
+      </ul>
+    </li>
+    <li>
+      当前桶存储的数据个数超过 4096 个时，存储为 Bitmap，称为 <code>BitmapContainer</code>
+      <ul>
+        <li>保存为 <code>long[]</code>。每个比特位用 1 来表示有，0 来表示无</li>
+        <li>一个 <code>long</code> 提供 64 位，因此需要 1024 个 <code>long[]</code></li>
+        <li>
+          该容器始终占用<span class="katex">
+            <span class="katex-mathml">
+              <math xmlns="http://www.w3.org/1998/Math/MathML">
+                <semantics>
+                  <mrow>
+                    <mn>1024</mn><mo>∗</mo><mn>64</mn><mi>b</mi><mi>i</mi><mi>t</mi><mo>=</mo><mn>8</mn><mi>k</mi>
+                    <mi>b </mi>
+                  </mrow>
+                  <annotation encoding="application/x-tex">1024 * 64 bit = 8kb</annotation>
+                </semantics>
+              </math>
+            </span>
+            <span class="katex-html" aria-hidden="true">
+              <span class="base">
+                <span class="strut" style="height:0.6444em;"></span><span class="mord">1024</span>
+                <span class="mspace" style="margin-right:0.2222em;"></span>
+                <span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span>
+              </span>
+              <span class="base">
+                <span class="strut" style="height:0.6944em;"></span><span class="mord">64</span>
+                <span class="mord mathnormal">bit</span>
+                <span class="mrel">=</span>
+              </span>
+              <span class="base">
+                <span class="strut" style="height:0.6944em;"></span><span class="mord">8</span>
+                <span class="mord mathnormal" style="margin-right:0.03148em;"> kb </span>
+              </span>
+            </span>
+          </span>
+        </li>
+      </ul>
+    </li>
+  </ol>
+  <p>
+    所有的容器存储为一个数组对(最高位<code>short[] MSB</code>, 容器地址指针<code>Container[] ptr</code>)中，称为
+    HighLowContainer
+  </p>
+
+  <a name="playground-section"></a>
+  <h3>动手试一试</h3>
+  <p>用下面的小工具查看在 RoaringBitmap 中添加一项数据时会发生什么</p>
+  <AddVue client:load />
+</Layout>

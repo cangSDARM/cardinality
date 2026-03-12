@@ -1,9 +1,8 @@
-// @ts-check
 import { defineConfig } from "astro/config";
 import DropParagraph from "@allenlee/remark-drop-paragraph";
 import { visit, SKIP } from "unist-util-visit";
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 import tailwindcss from "@tailwindcss/vite";
 
@@ -12,7 +11,7 @@ import vue from "@astrojs/vue";
 const mdLayout = () => {
   // @ts-ignore
   return function (_, file) {
-    file.data.astro.frontmatter.layout = file.data.astro.frontmatter.layout || "@/pages/_layout.astro";
+    file.data.astro.frontmatter.layout ||= "@/pages/_layout.astro";
   };
 };
 
@@ -71,5 +70,5 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
 
-  integrations: [vue({ appEntrypoint: './src/pages/_app' })],
+  integrations: [vue({ appEntrypoint: "./src/pages/_app" })],
 });

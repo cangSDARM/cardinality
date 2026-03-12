@@ -11,8 +11,8 @@
 包含以下部分概念
 
 - 探索 RoaringBitmap 如何工作的[原理](/cardinality/roaring/principle)
-- 探索 RoaringBitmap 如何在[内存中表示](/cardinality/roaring/representing)
-- 探索 RoaringBitmap 如何支持[更改](/cardinality/roaring/mutating)
+- 探索 RoaringBitmap 如何[添加数据项](/cardinality/roaring/adding)
+- 探索 RoaringBitmap 如何支持[交并集操作](/cardinality/roaring/union_intersection)
 - 探索 RoaringBitmap 如何保证[长时间工作](/cardinality/roaring/longrun)
 - 探索 RoaringBitmap 的[衍生和具体实践](/cardinality/roaring/more)
 
