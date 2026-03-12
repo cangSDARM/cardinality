@@ -22,7 +22,7 @@ function toBinary(num: bigint, trunc: number) {
 const getResult = () => {
   result.value = {
     length: roaring.length(),
-    ptr: roaring.ptr.map(ptr => ({ name: ptr.constructor.name, msb: ptr.msb, length: ptr.length() })),
+    ptr: roaring.ptr.map(ptr => ({ name: ptr.name, msb: ptr.msb, length: ptr.length() })),
     size: roaring.size(),
   };
 };

@@ -83,6 +83,8 @@ function brianKernighan(num: bigint) {
 abstract class Container {
   constructor(public readonly msb: bigint) {}
 
+  /** for mangler. it should be same as ClassName */
+  abstract name: string;
   /** actual length */
   abstract length: () => number;
   /** occupied memory (bit) */
@@ -94,6 +96,7 @@ abstract class Container {
 
 class ArrayContainer extends Container {
   shorts: bigint[] = [];
+  name = "ArrayContainer";
 
   length = () => this.shorts.length;
   size = () => this.length() * 2;
@@ -120,6 +123,7 @@ class ArrayContainer extends Container {
 
 class BitmapContainer extends Container {
   bitmap: bigint[] = [];
+  name = "BitmapContainer";
 
   constructor(msb: bigint) {
     super(msb);
