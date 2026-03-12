@@ -100,9 +100,9 @@ const insertEvenBetween131072A196607 = () => {
         个容器
       </h3>
       <p>
-        共计占用 <small>{{ result.size }}</small> b /
-        <small>{{ (result.size / 1024).toFixed(2) }}</small>
-        kb 内存
+        共计占用 <small>{{ result.size }}</small> bit /
+        <small>{{ (result.size / 8 / 1024).toFixed(2) }}</small>
+        KB 内存
       </p>
       <div>
         <table class="table">
