@@ -15,12 +15,7 @@ import AddVue from "./_adding.vue";
   </ol>
   <p>RoaringBitmap 的桶划分如下：</p>
   <figure class="figure">
-    <Image
-      src={chunks}
-      alt="chunks"
-      class="figure-img img-fluid"
-      height={500}
-    />
+    <Image src={chunks} alt="chunks" class="figure-img img-fluid" height={500} />
   </figure>
   <p>按照插入时桶的疏密程度，实际存储时，RoaringBitmap 会进一步将桶区分为不同类型的容器(Container)：</p>
   <ol>
@@ -38,15 +33,16 @@ import AddVue from "./_adding.vue";
         <li>保存为 <code>long[]</code>。每个比特位用 1 来表示有，0 来表示无</li>
         <li>一个 <code>long</code> 提供 64 位，因此需要 1024 个 <code>long[]</code></li>
         <li>
-          该容器始终占用<span class="katex">
+          该容器始终占用
+          <span class="katex">
             <span class="katex-mathml">
               <math xmlns="http://www.w3.org/1998/Math/MathML">
                 <semantics>
                   <mrow>
-                    <mn>1024</mn><mo>∗</mo><mn>64</mn><mi>b</mi><mi>i</mi><mi>t</mi><mo>=</mo><mn>8</mn><mi>k</mi>
-                    <mi>b </mi>
+                    <mn>1024</mn><mo>∗</mo><mn>64</mn><mi>b</mi><mi>i</mi><mi>t</mi><mo>=</mo><mn>8</mn><mi>K</mi>
+                    <mi>B</mi>
                   </mrow>
-                  <annotation encoding="application/x-tex">1024 * 64 bit = 8kb</annotation>
+                  <annotation encoding="application/x-tex">1024 * 64 bit = 8KB</annotation>
                 </semantics>
               </math>
             </span>
@@ -63,7 +59,7 @@ import AddVue from "./_adding.vue";
               </span>
               <span class="base">
                 <span class="strut" style="height:0.6944em;"></span><span class="mord">8</span>
-                <span class="mord mathnormal" style="margin-right:0.03148em;"> kb </span>
+                <span class="mord mathnormal" style="margin-right:0.03148em;"> KB </span>
               </span>
             </span>
           </span>
@@ -75,9 +71,9 @@ import AddVue from "./_adding.vue";
     所有的容器存储为一个数组对(最高位<code>short[] MSB</code>, 容器地址指针<code>Container[] ptr</code>)中，称为
     HighLowContainer
   </p>
+  <p/>
 
-  <a name="playground-section"></a>
-  <h3>动手试一试</h3>
+  <h2>动手试一试</h2>
   <p>用下面的小工具查看在 RoaringBitmap 中添加一项数据时会发生什么</p>
   <AddVue client:load />
 </Layout>

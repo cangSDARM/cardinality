@@ -27,7 +27,7 @@ const getResult = () => {
   };
 };
 const add = () => {
-  roaring.insert(data.value);
+  roaring.add(data.value);
   getResult();
 };
 const random = () => {
@@ -36,14 +36,14 @@ const random = () => {
 };
 const insert1000Multiples62 = () => {
   Array.from({ length: 1000 }).forEach((_, multiplier) => {
-    roaring.insert(multiplier * 62);
+    roaring.add(multiplier * 62);
   });
   getResult();
 };
 const insert100IntegersFrom216 = () => {
   const base = Math.pow(2, 16);
   Array.from({ length: 100 }).forEach((_, adder) => {
-    roaring.insert(base + adder);
+    roaring.add(base + adder);
   });
   getResult();
 };
@@ -52,7 +52,7 @@ const insertEvenBetween131072A196607 = () => {
   const step = 2;
 
   Array.from({ length: (196608 - start) / step }).forEach((_, adder) => {
-    roaring.insert(start + adder * step);
+    roaring.add(start + adder * step);
   });
   getResult();
 };

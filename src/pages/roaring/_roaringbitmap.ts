@@ -1,3 +1,8 @@
+/**
+ * junky implementation of RoaringBitmap, demonstration only.
+ */
+
+/** */
 const DEFAULT_MAX_SIZE = 4096;
 const MAX_VALUE = 0xffff_ffff_ffff_ffffn;
 
@@ -82,8 +87,8 @@ abstract class Container {
   abstract length: () => number;
   /** occupied memory (bit) */
   abstract size: () => number;
-  abstract insert: (num: bigint) => boolean;
-  abstract include: (num: bigint) => boolean;
+  abstract add: (num: bigint) => boolean;
+  abstract has: (num: bigint) => boolean;
   abstract transform: (newContainer: Container) => Container;
 }
 
@@ -92,11 +97,11 @@ class ArrayContainer extends Container {
 
   length = () => this.shorts.length;
   size = () => this.length() * 2;
-  include = (num: bigint) => {
+  has = (num: bigint) => {
     return binarySearch(this.shorts, num) > -1;
   };
-  insert = (num: bigint): boolean => {
-    if (this.include(num)) return false;
+  add = (num: bigint): boolean => {
+    if (this.has(num)) return false;
     if (this.length() === 0) {
       this.shorts.push(num);
       return true;
@@ -108,7 +113,7 @@ class ArrayContainer extends Container {
     return true;
   };
   transform = (newContainer: Container) => {
-    this.shorts.forEach(newContainer.insert);
+    this.shorts.forEach(newContainer.add);
     return newContainer;
   };
 }
@@ -125,14 +130,20 @@ class BitmapContainer extends Container {
 
   length = () => this.bitmap.reduce((acc, cur) => acc + brianKernighan(cur), 0);
   size = () => 65536;
-  include = (num: bigint): boolean => {
-    const index = Number(num / 64n);
-    const occupied = 2n ** (num % 64n);
+
+  private divideAndMod = (num: bigint) => {
+    const divided = Number(num >> 6n); // n / 64
+    const mod = 1n << (num & 63n); // 2 ** (n % 64)
+
+    return [divided, mod] as const;
+  };
+
+  has = (num: bigint): boolean => {
+    const [index, occupied] = this.divideAndMod(num);
     return !!(this.bitmap[index] & occupied);
   };
-  insert = (num: bigint) => {
-    const index = Number(num / 64n);
-    const occupied = 2n ** (num % 64n);
+  add = (num: bigint) => {
+    const [index, occupied] = this.divideAndMod(num);
     this.bitmap[index] = this.bitmap[index] | occupied;
     return true;
   };
@@ -165,20 +176,20 @@ export default function RoaringBitmap() {
     ptr,
     length,
     size: () => ptr.reduce((acc, cur) => acc + cur.size(), 0),
-    include: (num: number) => {
+    has: (num: number) => {
       const clamped = clamp(BigInt(num), MAX_VALUE, 0n);
       const [high, low] = getHighLowBits(clamped);
       const bucket = binarySearch(MSB, high);
 
-      return !!ptr[bucket]?.include(low);
+      return !!ptr[bucket]?.has(low);
     },
-    insert: (num: number) => {
+    add: (num: number) => {
       const clamped = clamp(BigInt(num), MAX_VALUE, 0n);
       const [high, low] = getHighLowBits(clamped);
 
       const bucket = binarySearch(MSB, high);
       const index = bucket < 0 ? newBucket(high) : bucket;
-      ptr[index].insert(low);
+      ptr[index].add(low);
 
       convertIff(index);
     },
