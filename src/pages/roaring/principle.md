@@ -33,9 +33,14 @@
 
 大佬们提出了多种算法对稀疏位图进行压缩，以期减少内存占用并提高效率。
 
-比较有代表性的有 WAH(Word Aligned Hybrid Compression Scheme)、EWAH(Extended WAH)、Concise(Compressed ‘n’ Composable Integer Set)，以及RoaringBitmap。
+比较有代表性的有
 
-前三种算法都是基于[游程编码(Run-length encoding, RLE)](https://en.wikipedia.org/wiki/Run-length_encoding)做压缩，而 RoaringBitmap 算是它们的改进版。
+- 甲骨文的 BBC。尽管压缩率不错，但由于过多的分支判断，其速度远慢于更新的方案
+- WAH(Word Aligned Hybrid Compression Scheme)。BBC 的改进，基于[游程编码(Run-length encoding, RLE)](https://en.wikipedia.org/wiki/Run-length_encoding)做压缩，但有专利限制
+- Concise(Compressed ‘n’ Composable Integer Set)，WAH 的变体。在某些特定情况下，它的压缩率远优于 WAH（最高可达 2 倍），但速度通常较慢
+- EWAH(Extended WAH)。既无专利限制，速度也快于上述所有格式。缺点是压缩率稍逊一筹
+
+由于基于游程压缩，他们都有个绕不开的问题：不支持随机访问。若要检查某个值是否存在于集合中，必须从头开始“解压缩”全部数据
 
 ## RoaringBitmap
 
