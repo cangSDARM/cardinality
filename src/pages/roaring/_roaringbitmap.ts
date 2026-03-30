@@ -9,8 +9,13 @@ const MAX_VALUE = 0xffff_ffff_ffff_ffffn;
 const abs = (n: number | bigint) => (Object.is(n, -0) || n < 0n ? -n : n);
 
 function binarySearch(arr: bigint[], target: bigint) {
+  const len = arr.length;
+
+  if (len === 0) return -1;
+  if (arr[len - 1] == target) return len - 1;
+
   let left = 0;
-  let right = arr.length - 1;
+  let right = len - 1;
 
   while (left <= right) {
     const mid = left + Math.floor((right - left) / 2);
@@ -29,10 +34,13 @@ function binarySearch(arr: bigint[], target: bigint) {
 }
 
 function searchLargestFloor(sortedArr: bigint[], target: bigint) {
-  if (sortedArr.length === 0) return 0;
+  const len = sortedArr.length;
+
+  if (len === 0) return 0;
+  if (target > sortedArr[len - 1]) return len - 1;
 
   let left = 0;
-  let right = sortedArr.length - 1;
+  let right = len - 1;
   let result = 0;
 
   while (left <= right) {

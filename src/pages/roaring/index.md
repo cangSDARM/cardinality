@@ -12,8 +12,8 @@
 
 - 探索 RoaringBitmap 如何工作的[原理](/cardinality/roaring/principle)
 - 探索 RoaringBitmap 如何[添加数据项](/cardinality/roaring/adding)
+- 探索 RoaringBitmap 如何优化[长连续的整数](/cardinality/roaring/longrun)
 - 探索 RoaringBitmap 如何支持[交并集操作](/cardinality/roaring/union_intersection)
-- 探索 RoaringBitmap 如何保证[长时间工作](/cardinality/roaring/longrun)
 - 探索 RoaringBitmap 的[衍生和具体实践](/cardinality/roaring/more)
 
 ## 总而言之
@@ -29,11 +29,7 @@ RoaringBitmap 是基数统计的利器：
 
 - ⚠️它依然属于位图，无法很好的处理密集型随机值集合
 
-潜在应用场景：
-
-- 数据库索引
-- 搜索引擎索引
-- 大数据标签
+RoaringBitmap 已成为大数据索引、用户画像、OLAP 去重的事实标准。核心价值是用极小内存实现超快集合运算
 
 ## 致谢
 
