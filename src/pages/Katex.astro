@@ -1,0 +1,14 @@
+---
+import { renderToString, type KatexOptions } from "katex";
+
+interface Props extends KatexOptions {}
+
+const textContent = await Astro.slots.render("default");
+
+var katexString = renderToString(textContent, {
+  throwOnError: false,
+  ...Astro.props,
+});
+---
+
+<Fragment set:html={katexString} />

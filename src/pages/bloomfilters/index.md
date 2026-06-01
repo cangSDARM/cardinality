@@ -3,3 +3,42 @@
 
 # BloomFilters
 
+本网站旨在探索以下论文
+
+- [Space/Time Trade-offs in Hash Coding with Allowable Errors (1970)](https://dl.acm.org/doi/10.1145/362686.362692)
+
+包含以下部分概念
+
+- 探索 BloomFilters 如何工作的[原理](/cardinality/bloomfilters/principle)
+- 探索 BloomFilters 的[概率计算过程](/cardinality/bloomfilters/probability)
+- 探索 BloomFilters 的[扩展变种](/cardinality/bloomfilters/falsePositive)
+- 探索 BloomFilters 的[衍生和具体实践](/cardinality/bloomfilters/more)
+
+## 总而言之
+
+BloomFilters 是基数估计的利器：
+
+- ✅ 存储空间是常数
+- ✅ 插入/查询时间是常数
+- ✅ 无隐私问题
+- ✅ 可以表示全集
+- ✅ 交并差运算简单
+
+但是：
+
+- ⚠️ 无法给出精确统计 - 根据场景结果可能会出现小的 +/- 偏差
+- ⚠️ 存入数量增加，误算率也会跟着增加
+- ⚠️ 不能从布隆过滤器中删除元素(扩展的如 CBF 可以)
+
+潜在应用场景：
+
+- 分布式数据库
+- 缓存代理服务中的缓存命中逻辑
+- 数据库查询设计
+- 探索性分析
+
+## 致谢
+
+- BloomFilter 概率推导：https://eli.thegreenplace.net/2025/bloom-filters/
+- BloomFilter 用例：https://www.cnblogs.com/liyulong1982/p/6013002.html
+- BloomFilter 扩展变种讲解：https://cloud.tencent.com/developer/article/2255688

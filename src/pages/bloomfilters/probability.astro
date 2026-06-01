@@ -1,0 +1,62 @@
+---
+import Layout from "../_layout.astro";
+import Katex from "../Katex.astro";
+import CalculatorVue from "./_calculator.vue";
+import { Image } from "astro:assets";
+import nmp from "./assets/nm-p.png";
+---
+
+<Layout markdownify>
+  <h1>Probability</h1>
+  <p>符号说明：</p>
+  <ul>
+    <li><Katex>m</Katex>：集合的大小（以位为单位）</li>
+    <li><Katex>n</Katex>：已插入过滤器的键的数量</li>
+    <li><Katex>k</Katex>：用于插入/查询每个键的哈希函数数量</li>
+  </ul>
+  <p>集合中某一特定的位在进行插入操作时，没有被哈希置位的概率是：</p>
+  <Katex displayMode>{"p_0=1-\\frac{1}{m}"}</Katex>
+  <p>并且该位在所有<Katex>k</Katex>次哈希函数中，都没有被置 "1" 的概率是：</p>
+  <Katex displayMode>
+    {"p_0=(1-\\frac{1}{m})^k=((1-\\frac{1}{m})^m)^{\\frac{1}{m}}\\overset{当 m 足够大时}\\approx e^{-\\frac{k}{m}}"}
+  </Katex>
+  <p>在插入<Katex>n</Katex>个元素之后，该位变为 "1" 的概率是：</p>
+  <Katex displayMode>{"p_1=1-p_0=1-e^{-\\frac{kn}{m}}"}</Katex>
+  <p>
+    误算率（所有<Katex>k</Katex>个哈希值都恰好落在已经被置为 1 的位上的概率），记作<Katex>\varepsilon</Katex
+    >。且需假设每个哈希函数之间相互独立（尽管这一假设在数学上并不十分严谨，但在实践中是合理的），有：
+  </p>
+  <Katex displayMode>{"\\varepsilon=p_{fp}\\approx\\left ( 1-e^{-\\frac{kn}{m}} \\right )^k"}</Katex>
+  <p>
+    为了获得最优（最小）的误算率，我们需要最小化<Katex>\varepsilon</Katex>。由于对数函数是单调递增的，最小化
+    <Katex>\ln \varepsilon</Katex> 会更为方便：
+  </p>
+  <Katex is:raw displayMode>
+    \min \ln \varepsilon=\min \ln (1-e^{-\frac{kn}{m}})^k=\min k\cdot \ln (1-e^{-\frac{kn}{m}})
+  </Katex>
+  <p>省去不必要的微积分与代数运算，我们可以得出：</p>
+  <Katex displayMode>{"k=\\frac{m}{n}\\cdot \\ln (2)"}</Katex>
+  <p>将<Katex>k</Katex>代入原误算率式子，有：</p>
+  <Katex is:raw displayMode>
+    \begin{aligned} \varepsilon & \approx \left(1-e^{-\frac{n}{m}\cdot \frac{m}{n}\ln 2}\right)^{\frac{m}{n}\cdot \ln 2}
+    \\ & \approx \left(\frac{1}{2}\right)^{\frac{m}{n}\cdot \ln 2} \end{aligned}
+  </Katex>
+  <p>常见的情况是，已有一个目标错误率<Katex>\varepsilon_t</Katex>，想要计算集合中需要为每个元素分配多少比特位：</p>
+  <Katex is:raw displayMode>
+    \begin{aligned} \ln \varepsilon & \approx \frac{m}{n}\cdot \ln 2 \cdot \ln 2^{-1} = - \frac{m}{n} \ln^2(2)\\
+    \text{则}\; \frac{m}{n} & \approx - \frac{\ln \varepsilon}{\ln^2(2)} \end{aligned}
+  </Katex>
+  <br />
+
+  <figure class="figure">
+    <Image alt="" class="figure-img img-fluid" src={nmp} />
+    <figcaption>
+      随着 n 增长，不同 m 情况下<Katex>\varepsilon</Katex>的变化关系
+    </figcaption>
+  </figure>
+
+  <a name="playground-section"></a>
+  <h3>简单算一算</h3>
+  <p>用下面的小工具快速计算 BloomFilter 的尺寸</p>
+  <CalculatorVue client:load />
+</Layout>

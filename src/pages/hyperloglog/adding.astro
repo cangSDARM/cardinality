@@ -1,8 +1,8 @@
 ---
 import AddVue from "./_adding.vue";
+import Katex from "../Katex.astro";
 import Layout from "../_layout.astro";
 import inserting from "./assets/inserting.png";
-import { KATEX_RENDERS } from "./_katex";
 import { Image } from "astro:assets";
 ---
 
@@ -11,22 +11,22 @@ import { Image } from "astro:assets";
   <p>一个可运行的 HyperLogLog 实现必须有：</p>
   <ul>
     <li>
-      一系列的 <i>寄存器</i> (<span set:html={KATEX_RENDERS["m"]} />)，可以实现为一个数组
+      一系列的 <i>寄存器</i> (<Katex>m</Katex>)，可以实现为一个数组
     </li>
     <li>
-      一个 <i>精度</i> (<span set:html={KATEX_RENDERS["p"]} />) 参数，通常为 4 - 16，必须在创建时指定
+      一个 <i>精度</i> (<Katex>p</Katex>) 参数，通常为 4 - 16，必须在创建时指定
       <ul>
-        <li>决定了有多少个寄存器可用 (2^n)</li>
+        <li>决定了有多少个寄存器可用 (<Katex>2^n</Katex>)</li>
         <li>更多的寄存器可以减少<a href="./counting">计数</a>中的错误，但需要牺牲更多的内存</li>
       </ul>
     </li>
     <li>
-      一个 <i>哈希函数</i> (<span set:html={KATEX_RENDERS["h_v"]} />)，用于将数据散列为一个 32 位整数
+      一个 <i>哈希函数</i> (<Katex>h(v)</Katex>)，用于将数据散列为一个 32 位整数
     </li>
   </ul>
 
   <p>
-    HyperLogLog 基于当前所有寄存器的状态估计 <i>基数</i> (<span set:html={KATEX_RENDERS["E"]} />)
+    HyperLogLog 基于当前所有寄存器的状态估计 <i>基数</i> (<Katex>E</Katex>)
   </p>
 
   <p>如下所示，添加一个数据可能就会彻底改变寄存器的状态。</p>

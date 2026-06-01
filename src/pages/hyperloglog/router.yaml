@@ -1,0 +1,12 @@
+- /principle:
+    label: 原理
+- /adding:
+    label: 添加
+- /counting:
+    label: 计数
+- /merging:
+    label: 合并
+- /more:
+    label: 更多
+- https://djhworld.github.io/hyperloglog:
+    label: 🇬🇧原文

@@ -65,7 +65,6 @@ function random_unique_update(c: number) {
   return new Promise<void>(function (resolve, reject) {
     reset(precision.value);
     setTimeout(function () {
-      console.log("before resolve");
       if (c != null) {
         selectedCard.value = c;
       }
@@ -96,10 +95,8 @@ function random_unique_update(c: number) {
 const randomUnique = async (c?: any) => {
   isProcessing.value = true;
   await sleep(200);
-  console.log("calling");
   await random_unique_update(c);
   isProcessing.value = false;
-  console.log("Done");
 };
 
 const createChart = (chartId: string, chartData: any) => {
@@ -307,9 +304,9 @@ onUpdated(() => {
             </td>
             <td>
               {{ result.correction_used.name }}
-              <small v-if="result.correction_used.name == 'LinearCount'"
-                >(负载因子 = {{ result.correction_used.metadata.FillFactor }})</small
-              >
+              <small v-if="result.correction_used.name == 'LinearCount'">
+                (负载因子 = {{ result.correction_used.metadata.FillFactor }})
+              </small>
             </td>
           </tr>
         </tbody>

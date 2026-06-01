@@ -1,5 +1,6 @@
 ---
 import Layout from "../_layout.astro";
+import Katex from "../Katex.astro";
 import chunks from "./assets/chunks.png";
 import { Image } from "astro:assets";
 import AddVue from "./_adding.vue";
@@ -33,36 +34,7 @@ import AddVue from "./_adding.vue";
         <li>保存为 <code>long[]</code>。每个比特位用 1 来表示有，0 来表示无</li>
         <li>一个 <code>long</code> 提供 64 位，因此需要 1024 个 <code>long[]</code></li>
         <li>
-          该容器始终占用
-          <span class="katex">
-            <span class="katex-mathml">
-              <math xmlns="http://www.w3.org/1998/Math/MathML">
-                <semantics>
-                  <mrow>
-                    <mn>1024</mn><mo>∗</mo><mn>64</mn><mi>b</mi><mi>i</mi><mi>t</mi><mo>=</mo><mn>8</mn><mi>K</mi>
-                    <mi>B</mi>
-                  </mrow>
-                  <annotation encoding="application/x-tex">1024 * 64 bit = 8KB</annotation>
-                </semantics>
-              </math>
-            </span>
-            <span class="katex-html" aria-hidden="true">
-              <span class="base">
-                <span class="strut" style="height:0.6444em;"></span><span class="mord">1024</span>
-                <span class="mspace" style="margin-right:0.2222em;"></span>
-                <span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222em;"></span>
-              </span>
-              <span class="base">
-                <span class="strut" style="height:0.6944em;"></span><span class="mord">64</span>
-                <span class="mord mathnormal">bit</span>
-                <span class="mrel">=</span>
-              </span>
-              <span class="base">
-                <span class="strut" style="height:0.6944em;"></span><span class="mord">8</span>
-                <span class="mord mathnormal" style="margin-right:0.03148em;"> KB </span>
-              </span>
-            </span>
-          </span>
+          该容器始终占用<Katex is:raw>1024 \times 64\text{bits} = 8\text{KB} </Katex>
         </li>
       </ul>
     </li>
