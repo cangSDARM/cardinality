@@ -1,6 +1,6 @@
 ---
-import Layout from "../_layout.astro";
-import Katex from "../Katex.astro";
+import Layout from "@/components/Layout.astro";
+import Katex from "@/components/Katex.astro";
 import CalculatorVue from "./_calculator.vue";
 import { Image } from "astro:assets";
 import nmp from "./assets/nm-p.png";
@@ -18,7 +18,7 @@ import nmp from "./assets/nm-p.png";
   <Katex displayMode>{"p_0=1-\\frac{1}{m}"}</Katex>
   <p>并且该位在所有<Katex>k</Katex>次哈希函数中，都没有被置 "1" 的概率是：</p>
   <Katex displayMode>
-    {"p_0=(1-\\frac{1}{m})^k=((1-\\frac{1}{m})^m)^{\\frac{1}{m}}\\overset{当 m 足够大时}\\approx e^{-\\frac{k}{m}}"}
+    {"p_0=(1-\\frac{1}{m})^k=((1-\\frac{1}{m})^m)^{\\frac{1}{m}}\\overset{\\text{当 m 足够大时}}\\approx e^{-\\frac{k}{m}}"}
   </Katex>
   <p>在插入<Katex>n</Katex>个元素之后，该位变为 "1" 的概率是：</p>
   <Katex displayMode>{"p_1=1-p_0=1-e^{-\\frac{kn}{m}}"}</Katex>

@@ -1,9 +1,9 @@
 ---
-import Navigation from "./_navigation.astro";
-import Footer from "./_footer.astro";
+import Navigation from "./Navigation.astro";
+import Footer from "@/components/Footer.astro";
 import "katex/dist/katex.min.css";
 import type { MarkdownLayoutProps } from "astro";
-import { parseRouter } from "./_utils";
+import { parseRouter } from "./utils";
 import { pipe, mapToObj, filter, isStrictEqual, prop, entries, first, pullObject } from "remeda";
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 const { pathname } = Astro.url;
 
 const navs = pipe(
-  import.meta.glob("./router.yaml", { eager: true, query: "raw" }),
+  import.meta.glob("@/pages/router.yaml", { eager: true, query: "raw" }),
   glob => entries(glob),
   entry => first(entry) ?? [],
   ([filePath, mod]) => parseRouter(filePath, mod),
@@ -21,7 +21,7 @@ const navs = pipe(
 );
 
 const subnavs = pipe(
-  import.meta.glob("./*/router.yaml", { eager: true, query: "raw" }),
+  import.meta.glob("@/pages/*/router.yaml", { eager: true, query: "raw" }),
   glob => entries(glob),
   mapToObj(([filePath, mod]) => {
     const { path, routers } = parseRouter(filePath, mod);

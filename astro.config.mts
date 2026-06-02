@@ -12,7 +12,7 @@ import vue from "@astrojs/vue";
 const mdLayout = () => {
   // @ts-ignore
   return function (_, file) {
-    file.data.astro.frontmatter.layout ||= "@/pages/_layout.astro";
+    file.data.astro.frontmatter.layout ||= "@/components/Layout.astro";
   };
 };
 
