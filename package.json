@@ -22,7 +22,7 @@
     "yaml": "^2.9.0"
   },
   "devDependencies": {
-    "@allenlee/remark-drop-paragraph": "^0.0.4",
+    "@allenlee/remark-drop-paragraph": "^0.0.5",
     "katex": "^0.16.38",
     "prettier": "^3.8.1",
     "rehype-katex": "^7.0.1",
