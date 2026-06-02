@@ -3,7 +3,8 @@ import Navigation from "./_navigation.astro";
 import Footer from "./_footer.astro";
 import "katex/dist/katex.min.css";
 import type { MarkdownLayoutProps } from "astro";
-import { parseRouter, pipe } from "./_utils";
+import { parseRouter } from "./_utils";
+import { pipe, mapToObj, filter, isStrictEqual, prop, entries, first, pullObject } from "remeda";
 
 type Props = {
   markdownify?: boolean;
@@ -12,38 +13,38 @@ type Props = {
 const { pathname } = Astro.url;
 
 const navs = pipe(
-  Object.entries(import.meta.glob("./router.yaml", { eager: true, query: "raw" }))[0],
-  ([filePath, mod]) => parseRouter(filePath, mod).routers
+  import.meta.glob("./router.yaml", { eager: true, query: "raw" }),
+  glob => entries(glob),
+  entry => first(entry) ?? [],
+  ([filePath, mod]) => parseRouter(filePath, mod),
+  prop("routers")
 );
 
 const subnavs = pipe(
-  pipe(
-    Object.entries(import.meta.glob("./*/router.yaml", { eager: true, query: "raw" })),
-    array =>
-      array.map(([filePath, mod]) => {
-        const { path, routers } = parseRouter(filePath, mod);
-        return [path, { routers }];
-      }),
-    Object.fromEntries
-  ),
+  import.meta.glob("./*/router.yaml", { eager: true, query: "raw" }),
+  glob => entries(glob),
+  mapToObj(([filePath, mod]) => {
+    const { path, routers } = parseRouter(filePath, mod);
+    return [path, { routers }];
+  }),
   navigators =>
     pipe(
-      navs.slice(1),
-      array =>
-        array.map(nav => [
-          nav.href,
-          navigators[nav.href]?.routers ?? [
+      navs,
+      filter(nav => !isStrictEqual(nav.href, "/")),
+      pullObject(
+        prop("href"),
+        nav =>
+          prop(navigators, nav.href, "routers") ?? [
             {
               href: "/principle",
               label: "原理",
             },
-          ],
-        ]),
-      Object.fromEntries
+          ]
+      )
     )
 );
 
-console.log(navs, subnavs);
+// console.log(navs, subnavs);
 
 const subbase = pathname.replace(import.meta.env.BASE_URL, "").match(/(?:\/[^\/]*)/g)?.[0];
 

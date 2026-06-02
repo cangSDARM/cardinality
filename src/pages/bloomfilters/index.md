@@ -41,4 +41,4 @@ BloomFilters 是基数估计的利器：
 
 - BloomFilter 概率推导：https://eli.thegreenplace.net/2025/bloom-filters/
 - BloomFilter 用例：https://www.cnblogs.com/liyulong1982/p/6013002.html
-- BloomFilter 扩展变种讲解：https://cloud.tencent.com/developer/article/2255688
+- BloomFilter 扩展变种讲解：https://www.cnblogs.com/88223100/p/Interpretation-of-Classic-Papers-BloonFilter.html

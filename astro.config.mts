@@ -3,6 +3,7 @@ import DropParagraph from "@allenlee/remark-drop-paragraph";
 import { visit, SKIP } from "unist-util-visit";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import { unified, rehypeHeadingIds } from "@astrojs/markdown-remark";
 
 import tailwindcss from "@tailwindcss/vite";
 
@@ -49,21 +50,28 @@ export default defineConfig({
   base: "cardinality",
 
   markdown: {
-    remarkPlugins: [mdLayout, remarkMath],
-    // @ts-ignore
-    rehypePlugins: [mdImageFlow, rehypeKatex, DropParagraph],
-    remarkRehype: {
-      footnoteBackContent: (_, referenceIndex) => {
-        return [
-          {
-            type: "element",
-            tagName: "sup",
-            properties: {},
-            children: [{ type: "text", value: "[return]" }],
-          },
-        ];
+    processor: unified({
+      remarkPlugins: [mdLayout, remarkMath],
+      rehypePlugins: [
+        rehypeHeadingIds,
+        mdImageFlow,
+        rehypeKatex,
+        // @ts-ignore
+        DropParagraph,
+      ],
+      remarkRehype: {
+        footnoteBackContent: (_: any, referenceIndex: number) => {
+          return [
+            {
+              type: "element",
+              tagName: "sup",
+              properties: {},
+              children: [{ type: "text", value: "[return]" }],
+            },
+          ];
+        },
       },
-    },
+    }),
   },
 
   vite: {

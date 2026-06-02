@@ -41,7 +41,7 @@ import nmp from "./assets/nm-p.png";
     \begin{aligned} \varepsilon & \approx \left(1-e^{-\frac{n}{m}\cdot \frac{m}{n}\ln 2}\right)^{\frac{m}{n}\cdot \ln 2}
     \\ & \approx \left(\frac{1}{2}\right)^{\frac{m}{n}\cdot \ln 2} \end{aligned}
   </Katex>
-  <p>常见的情况是，已有一个目标错误率<Katex>\varepsilon_t</Katex>，想要计算集合中需要为每个元素分配多少比特位：</p>
+  <p>常见的情况是，已有一个目标误算率<Katex>\varepsilon_t</Katex>，想要计算集合中需要为每个元素分配多少比特位：</p>
   <Katex is:raw displayMode>
     \begin{aligned} \ln \varepsilon & \approx \frac{m}{n}\cdot \ln 2 \cdot \ln 2^{-1} = - \frac{m}{n} \ln^2(2)\\
     \text{则}\; \frac{m}{n} & \approx - \frac{\ln \varepsilon}{\ln^2(2)} \end{aligned}
