@@ -25,7 +25,7 @@ const subnavs = pipe(
   glob => entries(glob),
   mapToObj(([filePath, mod]) => {
     const { path, routers } = parseRouter(filePath, mod);
-    return [path, { routers }];
+    return [path.replace(/(?:\/?src)?\/?pages/gi, ""), { routers }];
   }),
   navigators =>
     pipe(
