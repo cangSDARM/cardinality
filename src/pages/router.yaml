@@ -4,11 +4,11 @@
     label: RoaringBitmap
 - /fm:
     label: Flajolet-Martin
+- /cvm:
+    label: CVM
 - /hyperloglog:
     label: HyperLogLog
 - /bloomfilters:
     label: BloomFilters
 - /cms:
     label: Counting-min Sketch
-- /cvm:
-    label: CVM
