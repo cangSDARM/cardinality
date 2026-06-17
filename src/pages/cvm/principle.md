@@ -15,7 +15,8 @@
 
 显而易见，我们直接乘以2，得到$R(S)=2E(S)=0.5\times2\times n=n$……等等，这不就是我们期望的统计结果$n$么，问题解决了？
 
-这个想法不错，但它有一个非常明显的反例：如果我们有一个元素完全相同的集合$S_{same}=\{x,x,\dots,x\mid x=a\}, a\in\mathbb{R}$，那么我们的真正的结果应该是 1，而不是受到$n$的影响。
+这个想法不错，但它有一个非常明显的反例：
+如果我们有一个元素完全相同的集合$S_{same}=\{x,x,\dots,x\mid x=a\}, a\in\mathbb{R}$，那么我们的真正的结果应该是 1，而不是受到$n$的影响。
 
 ### 去重估计
 
@@ -31,22 +32,25 @@
 
 去重估计已经让我们的期望等于了我们想要的结果。但是，还是有一点小问题，那就是：我们的内存依然受限于输入长度，固定是$\frac{\text{len}(S)}{2}$
 
-那么我们可以要求加入一个“决定系数”$\varepsilon$，来替换之前固定的$50\%$，让每轮插入概率受该系数影响：$p_i=0.5^{\varepsilon_i}$。
+那么我们可以要求加入一个“决定系数”$\varepsilon$，来替换之前固定的$50\%$，让每轮插入概率受该系数影响：$p=0.5^{\varepsilon}$。
 
-此时，如果$\varepsilon$太小，内存使用量会过高。如果$\varepsilon$太大，估计值的方差又会很大。我们想要的是对小数据集使用较小的$\varepsilon$，对大数据集则使用较大的$\varepsilon$——这就是 CVM 算法用到的最后一个技巧：动态地选择抛掷次数。
+很容易想到，如果$\varepsilon$太小，内存使用量会过高；如果$\varepsilon$太大，估计值的方差又会很大。
+我们想要的是对小数据集使用较小的$\varepsilon$，对大数据集则使用较大的$\varepsilon$——这就是 CVM 算法用到的最后一个技巧：动态地选择抛掷次数。
 
-我们为集合大小设置一个上限$\text{trash}$，当已观察到的集合变得过大时，就增加抛掷次数。这个新标准既要应用于新元素，也要应用于已经见过的元素。由于已在集合中的每个元素都已经通过了概率$p_i=0.5^{\varepsilon_i}$，我们可以让它们再进行一次，从而要求它们必须满足概率$p_{i+1}=0.5^{\varepsilon_{i+1}},\ \ \varepsilon_{i+1}=\varepsilon +1$。
+我们为集合大小设置一个上限$\text{thresh}$，当已观察到的集合变得过大时，就增加$\varepsilon$。
+这个新标准既要应用于新元素，也要应用于已经见过的元素。
+由于已在集合中的每个元素都已经通过了概率$p_i=0.5^{\varepsilon_i}$，我们可以让它们再进行一次，从而要求它们必须满足概率$p_{i+1}=0.5^{\varepsilon_{i+1}},\ \ \varepsilon_{i+1}=\varepsilon +1$。
 
 完整的 CVM 算法代码如下：
 
-```js
-function CVM(inputs, trash) {
+```ts
+function CVM(inputs: string[], thresh: number): number {
   let epsilon = 0;
   const s = new Set();
   for (const input of inputs) {
     s.delete(input);
     if (Math.random() < Math.pow(0.5, epsilon)) s.add(input);
-    if (s.size == trash) {
+    if (s.size == thresh) {
       for (let item of s) if (Math.random() < 0.5) s.delete(item);
       epsilon += 1;
     }

@@ -1,7 +1,30 @@
 ---
+import Katex from "@/components/Katex.astro";
 import Layout from "@/components/Layout.astro";
+import CountingVue from './_counting.vue';
 ---
 
 <Layout markdownify>
   <h1>Counting</h1>
+  <p>
+    CVM 算法需要一个输入的集合，我们记为
+    <Katex is:raw>\mathcal{A}=\{a_1, a_2, \dots, a_n\}</Katex>。(作为参考的真实值记为<Katex is:raw>F_0(\mathcal{A})</Katex>)
+    以及内部集合的大小<code>trash</code>，记为<Katex is:raw>\mathcal{t}</Katex>。
+  </p>
+  <p>
+    但通常，我们无法提前知道<Katex is:raw>\mathcal{t}</Katex>的大小，根据经验设定的也往往偏差极大。
+    因此需要通过一些更符合直观感受的参数来推导出<Katex is:raw>\mathcal{t}</Katex>。
+  </p>
+  <p>
+    定义：
+  </p>
+  <ul>
+    <li><Katex>\varepsilon</Katex>为允许误差系数，对应的误差区间<Katex is:raw>\mathcal{R}=[(1-\varepsilon)\cdot F_0(\mathcal{A}), (1+\varepsilon)\cdot F_0(\mathcal{A})]</Katex></li>
+    <li><Katex>\delta</Katex>估计值落在允许误差范围内的概率，即<Katex is:raw>Pr[c\in\mathcal{R}]\geq 1-\delta</Katex></li>
+  </ul>
+  <p>
+    则，给定集合大小<Katex>n</Katex>，
+    <Katex is:raw displayMode>\mathcal{t}=\left\lceil \frac{12}{\varepsilon^2} \log_2(\frac{8n}{\delta}) \right\rceil</Katex>
+  </p>
+  <CountingVue client:load />
 </Layout>
