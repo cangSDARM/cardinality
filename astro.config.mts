@@ -47,7 +47,7 @@ const mdImageFlow = () => {
 // https://astro.build/config
 export default defineConfig({
   site: "https://cangSDARM.github.io",
-  base: "cardinality",
+  base: "streaming-algorithms",
 
   markdown: {
     processor: unified({
