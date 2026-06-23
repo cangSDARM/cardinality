@@ -18,7 +18,7 @@
 
 ## 总而言之
 
-RoaringBitmap 是基数统计的利器：
+RoaringBitmap 是基数查询的利器：
 
 - ✅ 很快
 - ✅ 可精确统计

@@ -12,3 +12,5 @@
     label: BloomFilters
 - /cms:
     label: Counting-min Sketch
+- /td:
+    label: t-Digest
