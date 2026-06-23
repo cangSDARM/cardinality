@@ -10,11 +10,11 @@
 
 包含以下部分概念
 
-- 探索 HyperLogLog 如何工作的[原理](/cardinality/hyperloglog/principle)
-- 探索 HyperLogLog 如何[添加数据项](/cardinality/hyperloglog/adding)
-- 探索 HyperLogLog 如何[基于近似的计数](/cardinality/hyperloglog/counting)
-- 探索 HyperLogLog 如何支持[合并](/cardinality/hyperloglog/merging)
-- 探索 HyperLogLog 的[衍生和具体实践](/cardinality/hyperloglog/more)
+- 探索 HyperLogLog 如何工作的[原理](/streaming-algorithms/hyperloglog/principle)
+- 探索 HyperLogLog 如何[添加数据项](/streaming-algorithms/hyperloglog/adding)
+- 探索 HyperLogLog 如何[基于近似的计数](/streaming-algorithms/hyperloglog/counting)
+- 探索 HyperLogLog 如何支持[合并](/streaming-algorithms/hyperloglog/merging)
+- 探索 HyperLogLog 的[衍生和具体实践](/streaming-algorithms/hyperloglog/more)
 
 ## 总而言之
 

@@ -9,10 +9,10 @@
 
 包含以下部分概念
 
-- 探索 BloomFilters 如何工作的[原理](/cardinality/bloomfilters/principle)
-- 探索 BloomFilters 的[概率计算过程](/cardinality/bloomfilters/probability)
-- 探索 BloomFilters 的[扩展变种](/cardinality/bloomfilters/falsePositive)
-- 探索 BloomFilters 的[衍生和具体实践](/cardinality/bloomfilters/more)
+- 探索 BloomFilters 如何工作的[原理](/streaming-algorithms/bloomfilters/principle)
+- 探索 BloomFilters 的[概率计算过程](/streaming-algorithms/bloomfilters/probability)
+- 探索 BloomFilters 的[扩展变种](/streaming-algorithms/bloomfilters/falsePositive)
+- 探索 BloomFilters 的[衍生和具体实践](/streaming-algorithms/bloomfilters/more)
 
 ## 总而言之
 

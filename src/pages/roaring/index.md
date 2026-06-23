@@ -10,11 +10,11 @@
 
 包含以下部分概念
 
-- 探索 RoaringBitmap 如何工作的[原理](/cardinality/roaring/principle)
-- 探索 RoaringBitmap 如何[添加数据项](/cardinality/roaring/adding)
-- 探索 RoaringBitmap 如何优化[长连续的整数](/cardinality/roaring/longrun)
-- 探索 RoaringBitmap 如何支持[交并集操作](/cardinality/roaring/union_intersection)
-- 探索 RoaringBitmap 的[衍生和具体实践](/cardinality/roaring/more)
+- 探索 RoaringBitmap 如何工作的[原理](/streaming-algorithms/roaring/principle)
+- 探索 RoaringBitmap 如何[添加数据项](/streaming-algorithms/roaring/adding)
+- 探索 RoaringBitmap 如何优化[长连续的整数](/streaming-algorithms/roaring/longrun)
+- 探索 RoaringBitmap 如何支持[交并集操作](/streaming-algorithms/roaring/union_intersection)
+- 探索 RoaringBitmap 的[衍生和具体实践](/streaming-algorithms/roaring/more)
 
 ## 总而言之
 

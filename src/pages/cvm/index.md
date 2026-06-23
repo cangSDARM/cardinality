@@ -9,9 +9,9 @@
 
 包含以下部分概念
 
-- 探索 CVM 如何工作的[原理](/cardinality/cvm/principle)
-- 探索 CVM 的[计算过程](/cardinality/cvm/counting)
-- 探索 CVM 的[衍生阅读](/cardinality/cvm/more)
+- 探索 CVM 如何工作的[原理](/streaming-algorithms/cvm/principle)
+- 探索 CVM 的[计算过程](/streaming-algorithms/cvm/counting)
+- 探索 CVM 的[衍生阅读](/streaming-algorithms/cvm/more)
 
 ## 总而言之
 
