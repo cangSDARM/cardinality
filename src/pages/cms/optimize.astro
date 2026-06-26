@@ -1,0 +1,61 @@
+---
+import Layout from "@/components/Layout.astro";
+import Katex from "@/components/Katex.astro";
+import OptimizeVue from "./_optimize.vue";
+---
+
+<Layout markdownify>
+  <h1>Optimize</h1>
+  <p>Count-Min Sketch 的原理使得我们需要设计一个最优的 Count-min Sketch 模型。</p>
+  <p>首先，规定一些参数：</p>
+  <ul>
+    <li><Katex>U</Katex>: 数据流大小</li>
+    <li><Katex>x</Katex>: 数据流中元素，<Katex>x\in U</Katex></li>
+    <li><Katex>m</Katex>: 每个哈希计数器大小，即矩阵(Sketch)的列</li>
+    <li><Katex>k</Katex>: 哈希数量，即矩阵(Sketch)的行</li>
+    <li><Katex>\varepsilon</Katex>: 估计值的误差范围</li>
+  </ul>
+  <p>
+    很明显，如果我们选择<Katex>k=1,\ \ m=U</Katex>，则所得计数结果是准确的，记为
+    <Katex>f(x)</Katex>；但大多数时候是不准确的，记为<Katex>f'(x)</Katex>
+  </p>
+  <p>为了达到足够的正确性，我们希望结果在可控范围内，其对应概率置信度为<Katex>P\geq (1-\delta)</Katex></p>
+  <p>有了以上的数据，论文证明了以下命题为真：</p>
+  <ul>
+    <li>
+      使用两两独立哈希(pairwise independent hashing)要好于任意哈希；且为达到最佳效果，需要选择全域哈希(universal
+      hashing)
+    </li>
+    <li>
+      <Katex is:raw>
+        f(x) \leq f'(x) \leq f(x) + E,\ \ E =\varepsilon \sum\limits_{x\in U} f(x)\approx\varepsilon\cdot U
+      </Katex>
+    </li>
+    <li>
+      最优矩阵可以表示为：<br />
+      <Katex is:raw> m = \lceil \frac{e}{\varepsilon} \rceil,\ \ k = \lceil \ln(\frac{1}{\delta}) \rceil </Katex>
+    </li>
+  </ul>
+  <p>
+    可以看出，想要错误范围越小，就要更大的<Katex>m</Katex>；同理，想要更高的概率（更小的
+    <Katex>\delta</Katex>），就要更大的<Katex>k</Katex>。
+  </p>
+  <p>那么设计一个最优 Count-min Sketch 模型的可以概括为：</p>
+  <ul>
+    <li>
+      预估数据流的大小<Katex>U</Katex>，设置初始<Katex>\varepsilon</Katex
+      >(经验法则是他俩应该有相同的有效位数。如：预期数据量为 5000，<Katex>\varepsilon</Katex>的一个良好初始值可能是
+      0.0001)，以减少误差项<Katex>E</Katex>
+    </li>
+    <li>
+      预估时间复杂度<Katex is:raw>O(\ln(\frac{1}{\delta}))</Katex>，设置全域哈希的数量<Katex>k</Katex>及其参数
+      Seed(控制哈希碰撞分布)
+    </li>
+    <li>
+      预估空间复杂度<Katex is:raw>O(\frac{1}{\varepsilon}\cdot \ln(\frac{1}{\delta}))</Katex>，设置矩阵列宽
+      <Katex>m</Katex>
+    </li>
+  </ul>
+
+  <OptimizeVue client:load />
+</Layout>

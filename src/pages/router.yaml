@@ -2,8 +2,6 @@
     label: 首页
 - /roaring:
     label: RoaringBitmap
-- /fm:
-    label: Flajolet-Martin
 - /cvm:
     label: CVM
 - /hyperloglog:
@@ -11,6 +9,6 @@
 - /bloomfilters:
     label: BloomFilters
 - /cms:
-    label: Counting-min Sketch
+    label: Count-Min Sketch
 - /td:
     label: t-Digest

@@ -1,2 +1,6 @@
 - /principle:
     label: 原理
+- /optimize:
+    label: 最优
+- /more:
+    label: 更多

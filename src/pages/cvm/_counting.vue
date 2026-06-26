@@ -284,7 +284,7 @@ onMounted(() => {
     <input
       class="form-control"
       type="range"
-      min="10"
+      min="1"
       max="5000"
       :value="times"
       @input="times = Number(($event.target as HTMLInputElement).value)"
