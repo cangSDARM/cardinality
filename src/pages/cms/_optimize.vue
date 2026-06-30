@@ -32,8 +32,8 @@ const controls = ref([
   { name: "\\varepsilon", min: 0.0001, max: 0.01, step: 0.0001, val: 0.0001 },
   { name: "\\delta", min: 0.01, max: 1, step: 0.01, val: 0.99 },
   { name: "\\text{Seed}", min: 0, max: 10000, step: 1, val: 5000 },
-  { name: "\\text{基数}", min: 0, max: 50000, step: 1, val: 1000 },
-  { name: "U", min: 0, max: 50000, step: 1, val: 4000 },
+  { name: "\\text{基数}", min: 0, max: 40000, step: 1, val: 1000 },
+  { name: "\\text{点的数目}", min: 0, max: 40000, step: 1, val: 4000 },
 ]);
 
 let chart;
@@ -132,6 +132,8 @@ const computeCMS = () => {
   const space = sketch.space();
   const depth = sketch.depth();
   const width = sketch.width();
+  // Update the series used to draw the graph
+  let errors = 0;
 
   properties.value[1].val = space / 1024;
   properties.value[2].val = 0;
@@ -147,7 +149,7 @@ const computeCMS = () => {
     }
     if (start > volume) return;
     if ("undefined" == typeof step) {
-      step = Math.ceil(volume / 75);
+      step = Math.ceil(volume / 50);
     }
 
     const limit = Math.min(start + step, volume);
@@ -159,11 +161,9 @@ const computeCMS = () => {
       data.push(val);
       estimate.push(est);
     }
-    // Update the series used to draw the graph
-    let errors = 0;
     for (var i = start; i < limit; i++) {
       // Look at all of the data to determine the actual error, but only draw
-      // one step'th the datapoints to keep the svg simple.
+      // one step'th the datapoints to keep the chart simple.
       const pt = { x: data[i], y: estimate[i] };
       if (typeof pt.x == "undefined" || typeof pt.y == "undefined") {
         break;
@@ -215,7 +215,10 @@ onMounted(() => {
 
 <template>
   <h3>动手试一试</h3>
-  <p>假设输入的数值(基数)<span v-html="renderToString('x')" />被输入<span v-html="renderToString('x')"/>次。我们使用 CMS 预估所有数据的次数。</p>
+  <p>
+    假设输入的数值(基数)<span v-html="renderToString('x')" />被输入<span v-html="renderToString('x')" />次。我们使用 CMS
+    预估所有数据的次数。
+  </p>
   <p>当数据点超出置信范围时，会以红色显示。作为参考，一个完美的估计应该看起来像一条对角线，并且完全不包含红色。</p>
 
   <main class="flex flex-col items-center">
